@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Camera,
@@ -11,6 +11,10 @@ import {
   TrendingUp,
   Activity,
   Droplet,
+  Search,
+  Radio,
+  Clock,
+  Sparkles,
 } from "lucide-react";
 import WaveDivider from "../components/WaveDivider";
 import ScrollExpand from "../components/ScrollExpand";
@@ -22,6 +26,40 @@ interface LandingViewProps {
 }
 
 export default function LandingView({ onEnterPortal, onLinkAccount, isAuthenticated }: LandingViewProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchStatus, setSearchStatus] = useState("");
+  const [currentCoords, setCurrentCoords] = useState("25.084, -80.183");
+
+  // Simulated live sensor data updates
+  const [radarPing, setRadarPing] = useState(false);
+  const [waterTemp, setWaterTemp] = useState(26.4);
+  const [swellHeight, setSwellHeight] = useState(1.8);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Toggle radar ping highlight
+      setRadarPing(prev => !prev);
+      
+      // Slightly fluctuate sensor values to simulate live feeds
+      setWaterTemp(prev => parseFloat((prev + (Math.random() * 0.2 - 0.1)).toFixed(1)));
+      setSwellHeight(prev => parseFloat((prev + (Math.random() * 0.1 - 0.05)).toFixed(2)));
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery) return;
+    setSearchStatus("Querying telemetry nodes...");
+    setTimeout(() => {
+      if (searchQuery.toLowerCase().includes("mari") || searchQuery.toLowerCase().includes("beach")) {
+        setSearchStatus("Marina Beach Sector: Active (Moderate Swell, 2 alerts Confirmed)");
+      } else {
+        setSearchStatus(`Sector "${searchQuery}": Linked. Standby verification active.`);
+      }
+    }, 1000);
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -31,8 +69,8 @@ export default function LandingView({ onEnterPortal, onLinkAccount, isAuthentica
   };
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
+    hidden: { y: 24, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
   };
 
   const featureCards = [
@@ -77,109 +115,168 @@ export default function LandingView({ onEnterPortal, onLinkAccount, isAuthentica
   return (
     <div className="flex-1 bg-[#EBF2F7] flex flex-col min-h-screen">
       
-      {/* Hero Header Area */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#2563EB]/10 via-[#0D9488]/5 to-[#EBF2F7] pt-16 md:pt-28 pb-12 px-6">
+      {/* Hero Header Area with Stripe-style Grid Pattern and glowing centers */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#EBF2F7] via-[#EBF2F7] to-[#F4F8FA] pt-16 md:pt-24 pb-16 px-6 border-b border-[#D5E2EC]">
         
-        {/* Soft Wave Vector Background Illustration */}
-        <div className="absolute top-0 right-0 -translate-y-12 translate-x-24 w-[350px] md:w-[600px] h-[350px] md:h-[600px] bg-gradient-to-tr from-[#2563EB]/10 to-[#0D9488]/10 rounded-full blur-3xl pointer-events-none" />
-        
+        {/* Glow grid mesh backdrops (Linear style) */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#d5e2ec_1px,transparent_1px),linear-gradient(to_bottom,#d5e2ec_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] opacity-[0.25] pointer-events-none" />
+        <div className="absolute top-0 right-0 -translate-y-24 translate-x-24 w-[400px] md:w-[700px] h-[400px] md:h-[700px] bg-gradient-to-tr from-[#2563EB]/10 to-[#0D9488]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 translate-y-24 -translate-x-24 w-[300px] h-[300px] bg-gradient-to-br from-[#FF7A59]/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           
-          {/* Hero Left Content */}
+          {/* Hero Left Content: Heavy bold title and interactive check query */}
           <motion.div 
             className="lg:col-span-7 text-left space-y-6 md:space-y-8"
             initial="hidden"
             animate="visible"
             variants={containerVariants}
           >
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-[#2563EB]/10 px-3.5 py-1.5 rounded-full border border-[#2563EB]/20 text-[#2563EB] font-bold text-xs tracking-wider">
-              <Shield size={14} />
-              <span>COASTAL DEFENSE AI PLATFORM</span>
+            {/* Blinking Live telemetry Badge */}
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-white border border-[#D5E2EC] px-4 py-1.5 rounded-full text-[#2563EB] font-black text-[10px] tracking-wider uppercase shadow-sm">
+              <Radio size={12} className="text-[#2563EB] animate-pulse" />
+              <span>COASTAL INTEL AGENT FEED ACTIVE</span>
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-black text-[#0E1726] leading-[1.1] tracking-tight">
-              Protecting Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] to-[#0D9488]">Oceans</span> Through AI Intelligence
+            {/* Heavy high-impact title */}
+            <motion.h1 variants={itemVariants} className="text-4xl md:text-[54px] font-black text-[#0E1726] leading-[1.1] tracking-tight">
+              An End-To-End <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] via-[#0D9488] to-[#2563EB] bg-[size:200%] animate-gradient">Environmental Defense Shield</span>
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="text-base md:text-lg text-[#64748B] leading-relaxed max-w-xl font-medium">
-              Submit hazard logs, monitor local advisory warnings, and collaborate with conservation teams to preserve marine life and protect coastal communities.
+            <motion.p variants={itemVariants} className="text-sm md:text-base text-[#64748B] leading-relaxed max-w-xl font-semibold">
+              Leveraging advanced intelligence pipelines to verify coastal hazards, group telemetry inputs, and coordinate emergency dispatches in real-time.
             </motion.p>
 
+            {/* Interactive Telemetry Checker Widget (Linear / Stripe style search) */}
+            <motion.form 
+              variants={itemVariants} 
+              onSubmit={handleSearchSubmit}
+              className="bg-white border border-[#D5E2EC] p-2.5 rounded-[20px] shadow-sm max-w-xl flex flex-col sm:flex-row items-center gap-2"
+            >
+              <div className="relative flex-1 w-full">
+                <Search className="absolute left-3.5 top-3 w-4 h-4 text-[#64748B]" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Enter beach or coastal coordinates (e.g. Marina Beach)"
+                  className="w-full pl-10 pr-4 py-2.5 bg-transparent text-xs font-semibold focus:outline-none placeholder-[#64748B] text-[#0E1726]"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full sm:w-auto bg-[#0E1726] hover:bg-[#1A2536] text-white font-extrabold px-6 py-2.5 rounded-xl text-xs tracking-wider uppercase transition-colors cursor-pointer"
+              >
+                Query Sector
+              </button>
+            </motion.form>
+
+            {searchStatus && (
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-3 bg-[#EBF2F7] border border-[#D5E2EC] text-[10px] text-[#2563EB] font-black rounded-xl max-w-xl text-left uppercase tracking-wide"
+              >
+                🛰️ STATUS: {searchStatus}
+              </motion.div>
+            )}
+
+            {/* Call to Actions Grid */}
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 pt-2">
               <button
                 onClick={() => onEnterPortal("report")}
-                className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-extrabold px-8 py-3.5 rounded-2xl text-sm transition-all duration-200 transform hover:-translate-y-0.5 shadow-[0_4px_12px_rgba(37,99,235,0.25)] flex items-center justify-center gap-2 group cursor-pointer"
+                className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-extrabold px-8 py-4 rounded-2xl text-xs tracking-widest uppercase transition-all duration-200 transform hover:-translate-y-0.5 shadow-[0_6px_20px_rgba(37,99,235,0.15)] flex items-center justify-center gap-2 group cursor-pointer"
               >
                 <span>Report Ocean Hazard</span>
-                <Camera size={16} className="transition-transform group-hover:rotate-6" />
+                <Camera size={14} className="transition-transform group-hover:rotate-6" />
               </button>
 
               <button
                 onClick={() => onEnterPortal("home")}
-                className="bg-[#F4F8FA] hover:bg-[#EBF2F7] border border-[#D5E2EC] text-[#0E1726] font-extrabold px-8 py-3.5 rounded-2xl text-sm transition-all duration-200 shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                className="bg-white hover:bg-slate-50 border border-[#D5E2EC] text-[#0E1726] font-extrabold px-8 py-4 rounded-2xl text-xs tracking-widest uppercase transition-all duration-200 shadow-sm flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Explore Live Map</span>
-                <ArrowRight size={16} className="text-[#64748B]" />
+                <ArrowRight size={14} className="text-[#64748B]" />
               </button>
-            </motion.div>
-
-            {/* Quick Stat Indicators */}
-            <motion.div variants={itemVariants} className="flex items-center gap-8 pt-6 border-t border-[#D5E2EC] max-w-lg">
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-[#0E1726]">98.7%</span>
-                <span className="text-[10px] font-bold text-[#64748B] tracking-wider uppercase">AI Verification</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-[#0E1726]">12s</span>
-                <span className="text-[10px] font-bold text-[#64748B] tracking-wider uppercase">Response Dispatch</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-[#0E1726]">100%</span>
-                <span className="text-[10px] font-bold text-[#64748B] tracking-wider uppercase">Citizen-Driven</span>
-              </div>
             </motion.div>
           </motion.div>
 
-          {/* Hero Right: Clean Ocean Gradient Visual Graphic */}
+          {/* Hero Right Content: High-fidelity active circular Radar Sweep scanner */}
           <motion.div 
-            className="lg:col-span-5 flex justify-center"
+            className="lg:col-span-5 flex justify-center w-full"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="w-full max-w-[420px] aspect-[4/3] bg-gradient-to-br from-[#2563EB] to-[#0D9488] rounded-[32px] p-6 shadow-2xl relative overflow-hidden flex flex-col justify-between text-white border-4 border-[#F4F8FA]">
-              {/* Soft overlay patterns */}
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_20%,#fff_0%,transparent_60%)]" />
-              <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-white/20 rounded-full blur-2xl" />
+            <div className="w-full max-w-[360px] aspect-[1/1] bg-[#0E1726] border border-[#1E293B] rounded-[32px] p-6 shadow-2xl relative overflow-hidden flex flex-col justify-between text-white select-none">
               
+              {/* Grid overlay mask */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-20 pointer-events-none" />
+              
+              {/* Radar scanner top metadata */}
               <div className="flex justify-between items-start relative z-10">
-                <div className="bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-xl">
-                  <Activity size={24} className="text-white" />
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-xl">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                  <span className="text-[9px] font-black uppercase tracking-wider text-slate-200">LIVE FEED</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] font-bold tracking-widest text-sky-100 uppercase">SAT-NODE</span>
-                  <p className="text-xs font-bold">OCW-NODE-03</p>
+                  <span className="text-[8px] font-black tracking-widest text-[#E0F2FE] uppercase block">RADAR SECTOR</span>
+                  <p className="text-[10px] font-black text-slate-300 uppercase">OCW-SCAN-25.08</p>
                 </div>
               </div>
 
-              {/* simulated data card details */}
-              <div className="space-y-3 relative z-10">
-                <p className="text-[10px] font-extrabold tracking-widest text-[#E0F2FE]">REAL-TIME PIPELINE DIAGNOSTIC</p>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-bold border-b border-white/10 pb-1">
-                    <span className="text-sky-100">Oil Plume Risk</span>
-                    <span>Classified (92%)</span>
-                  </div>
-                  <div className="flex justify-between text-xs font-bold border-b border-white/10 pb-1">
-                    <span className="text-sky-100">Sea Debris</span>
-                    <span>Needs Confirm</span>
-                  </div>
-                  <div className="flex justify-between text-xs font-bold">
-                    <span className="text-sky-100">Distress Alerts</span>
-                    <span className="text-rose-200 animate-pulse font-black">1 SOS Active</span>
-                  </div>
+              {/* Circular SVG Radar Sweeper Sweep Visual */}
+              <div className="relative w-44 h-44 mx-auto flex items-center justify-center my-4 shrink-0 bg-[#0B1220] rounded-full border border-[#1E293B] shadow-inner">
+                {/* SVG radar grids */}
+                <svg className="absolute w-full h-full p-2">
+                  <circle cx="88" cy="88" r="76" stroke="#1E293B" strokeWidth="1" fill="none" strokeDasharray="4" />
+                  <circle cx="88" cy="88" r="54" stroke="#1E293B" strokeWidth="1" fill="none" />
+                  <circle cx="88" cy="88" r="30" stroke="#1E293B" strokeWidth="1" fill="none" />
+                  <line x1="12" y1="88" x2="164" y2="88" stroke="#1e293b" strokeWidth="1" />
+                  <line x1="88" y1="12" x2="88" y2="164" stroke="#1e293b" strokeWidth="1" />
+                </svg>
+
+                {/* Sweeping pointer arm (rotates) */}
+                <div className="absolute inset-0 p-2 animate-spin duration-[6s] linear infinite">
+                  <div className="w-1/2 h-[2px] bg-gradient-to-r from-transparent to-[#0D9488] origin-right absolute right-[50%] top-[50%] -translate-y-[50%] shadow-[0_0_8px_#0d9488]" />
+                </div>
+
+                {/* Blinking simulated hazard points (pop up dynamically) */}
+                <div className="absolute top-[35%] left-[25%] flex items-center justify-center">
+                  <span className="absolute w-3.5 h-3.5 rounded-full bg-[#EF4444] animate-ping opacity-75" />
+                  <span className="w-2 h-2 rounded-full bg-[#EF4444]" />
+                </div>
+
+                <div className="absolute bottom-[25%] right-[30%] flex items-center justify-center">
+                  <span className="absolute w-3.5 h-3.5 rounded-full bg-[#FF7A59] animate-ping opacity-75" />
+                  <span className="w-2 h-2 rounded-full bg-[#FF7A59]" />
+                </div>
+
+                <div className="absolute top-[45%] right-[20%] flex items-center justify-center">
+                  <span className="absolute w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
+                </div>
+
+                <span className="text-[8px] font-black uppercase text-[#0D9488]/80 tracking-widest relative z-10 bg-slate-900/50 px-2 py-0.5 rounded border border-[#1E293B]">
+                  SCANNING
+                </span>
+              </div>
+
+              {/* simulated data card details ticking */}
+              <div className="space-y-2 relative z-10 pt-3 border-t border-white/10 text-left">
+                <div className="flex justify-between items-center text-[9px] font-black uppercase text-slate-400">
+                  <span>GPS CENTROID</span>
+                  <span className="text-white">{currentCoords}</span>
+                </div>
+                <div className="flex justify-between items-center text-[9px] font-black uppercase text-slate-400">
+                  <span>SWELL LEVEL</span>
+                  <span className="text-white">{swellHeight}m (Moderate)</span>
+                </div>
+                <div className="flex justify-between items-center text-[9px] font-black uppercase text-slate-400">
+                  <span>WATER TEMP</span>
+                  <span className="text-[#0D9488]">{waterTemp}°C</span>
                 </div>
               </div>
+
             </div>
           </motion.div>
         </div>
@@ -227,71 +324,37 @@ export default function LandingView({ onEnterPortal, onLinkAccount, isAuthentica
         <div className="max-w-6xl mx-auto space-y-16">
           
           <div className="text-center max-w-2xl mx-auto space-y-4">
-            <h2 className="text-3xl md:text-4xl font-black text-[#0E1726] tracking-tight">
-              An End-To-End Environmental Defense Shield
+            <h2 className="text-2xl md:text-4xl font-black text-[#0E1726] tracking-tight">
+              A Resilient Intelligence Network
             </h2>
-            <p className="text-sm md:text-base text-[#64748B] font-medium leading-relaxed">
-              Leveraging advanced intelligence pipelines to verify coastal hazards and deploy emergency response.
+            <p className="text-xs md:text-sm text-[#64748B] font-bold uppercase leading-relaxed max-w-lg mx-auto">
+              OceanWatch AI coordinates incident logging, Gemini vision checks, and dispatch links across coastal sector networks.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featureCards.map((card, idx) => {
-              const Icon = card.icon;
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featureCards.map((feat, idx) => {
+              const Icon = feat.icon;
               return (
-                <motion.div
-                  key={idx}
-                  className="bg-[#F4F8FA] border border-[#D5E2EC] p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-[#CBD5E1] transition-all flex flex-col justify-between items-start space-y-4 cursor-pointer"
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.2 }}
-                  onClick={() => onEnterPortal()}
+                <div 
+                  key={idx} 
+                  className="bg-white border border-[#D5E2EC] p-6 rounded-[28px] shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-md transition-all space-y-4 text-left group"
                 >
-                  <div className={`p-3 rounded-xl border ${card.color}`}>
-                    <Icon size={22} />
+                  <div className={`p-3 rounded-xl inline-block border ${feat.color}`}>
+                    <Icon size={20} className="group-hover:scale-105 transition-transform" />
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="text-base font-extrabold text-[#0E1726]">{card.title}</h3>
-                    <p className="text-xs text-[#64748B] leading-relaxed font-medium">{card.desc}</p>
+                  <div className="space-y-1.5">
+                    <h3 className="text-sm font-black text-[#0E1726]">{feat.title}</h3>
+                    <p className="text-xs text-[#64748B] leading-relaxed font-semibold">{feat.desc}</p>
                   </div>
-                  <div className="text-xs font-bold text-[#2563EB] flex items-center gap-1 group pt-2">
-                    <span>Access feature</span>
-                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                  </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
 
-          {/* Quick Landing Banner Call to Action */}
-          <div className="bg-gradient-to-r from-[#2563EB] via-[#1D4ED8] to-[#0D9488] rounded-[24px] p-8 md:p-12 text-white flex flex-col md:flex-row justify-between items-center gap-8 shadow-lg relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_70%_80%,#fff_0%,transparent_60%)] pointer-events-none" />
-            <div className="space-y-3 max-w-lg text-left">
-              <h3 className="text-xl md:text-2xl font-black">Ready to safeguard your coastal community?</h3>
-              <p className="text-xs md:text-sm text-sky-100 leading-relaxed font-medium">
-                Log in to link your telemetry device and start contributing verified report evidence to national defense centers.
-              </p>
-            </div>
-            
-            <div className="flex gap-4 shrink-0">
-              {!isAuthenticated ? (
-                <button
-                  onClick={onLinkAccount}
-                  className="bg-[#EBF2F7] hover:bg-[#D5E2EC] text-[#0E1726] font-extrabold px-6 py-3 rounded-xl text-xs transition-colors shadow-sm cursor-pointer"
-                >
-                  Link Account Profile
-                </button>
-              ) : (
-                <button
-                  onClick={() => onEnterPortal("home")}
-                  className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-extrabold px-6 py-3 rounded-xl text-xs transition-colors cursor-pointer"
-                >
-                  Enter Portal Dashboard
-                </button>
-              )}
-            </div>
-          </div>
         </div>
       </section>
+
     </div>
   );
 }
