@@ -27,8 +27,8 @@ const EMERGENCY_TYPES = [
 
 export default function SosView({ apiClient, isOffline, onSuccess }: SosViewProps) {
   const [selectedType, setSelectedType] = useState(EMERGENCY_TYPES[0].value);
-  const [latitude, setLatitude] = useState(25.078);
-  const [longitude, setLongitude] = useState(-80.182);
+  const [latitude, setLatitude] = useState(13.04);
+  const [longitude, setLongitude] = useState(80.28);
   
   // Hold progress state
   const [progress, setProgress] = useState(0);

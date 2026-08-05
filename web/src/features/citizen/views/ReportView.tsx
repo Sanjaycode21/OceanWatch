@@ -33,8 +33,8 @@ const PRESET_IMAGES = [
 export default function ReportView({ apiClient, isOffline, onSuccess, offlineQueue, setOfflineQueue }: ReportViewProps) {
   const [step, setStep] = useState<number>(1);
   const [description, setDescription] = useState("");
-  const [latitude, setLatitude] = useState(25.08);
-  const [longitude, setLongitude] = useState(-80.18);
+  const [latitude, setLatitude] = useState(13.04);
+  const [longitude, setLongitude] = useState(80.28);
   const [presetImg, setPresetImg] = useState(PRESET_IMAGES[0].value);
   
   // Pipeline status states
