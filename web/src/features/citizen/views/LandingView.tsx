@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
@@ -28,7 +30,7 @@ interface LandingViewProps {
 export default function LandingView({ onEnterPortal, onLinkAccount, isAuthenticated }: LandingViewProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
-  const [currentCoords, setCurrentCoords] = useState("25.084, -80.183");
+  const [currentCoords, setCurrentCoords] = useState("13.082, 80.270");
 
   // Simulated live sensor data updates
   const [radarPing, setRadarPing] = useState(false);
@@ -115,17 +117,58 @@ export default function LandingView({ onEnterPortal, onLinkAccount, isAuthentica
   return (
     <div className="flex-1 bg-[#EBF2F7] flex flex-col min-h-screen">
       
-      {/* Hero Header Area with Stripe-style Grid Pattern and glowing centers */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#EBF2F7] via-[#EBF2F7] to-[#F4F8FA] pt-16 md:pt-24 pb-16 px-6 border-b border-[#D5E2EC]">
-        
-        {/* Glow grid mesh backdrops (Linear style) */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#d5e2ec_1px,transparent_1px),linear-gradient(to_bottom,#d5e2ec_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] opacity-[0.25] pointer-events-none" />
-        <div className="absolute top-0 right-0 -translate-y-24 translate-x-24 w-[400px] md:w-[700px] h-[400px] md:h-[700px] bg-gradient-to-tr from-[#2563EB]/10 to-[#0D9488]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 translate-y-24 -translate-x-24 w-[300px] h-[300px] bg-gradient-to-br from-[#FF7A59]/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+      {/* Scoped CSS styling for flowing ocean waves */}
+      <style>{`
+        @keyframes wave-swing {
+          0% { transform: translate3d(-90px, 0, 0); }
+          100% { transform: translate3d(85px, 0, 0); }
+        }
+        .animate-wave-layer-1 {
+          animation: wave-swing 16s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+        }
+        .animate-wave-layer-2 {
+          animation: wave-swing 11s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+          animation-delay: -3s;
+        }
+        .animate-wave-layer-3 {
+          animation: wave-swing 7s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+          animation-delay: -5s;
+        }
+        .animate-wave-layer-4 {
+          animation: wave-swing 4s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+          animation-delay: -2s;
+        }
+      `}</style>
 
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+      {/* Hero Header Area with spacious layout, grid meshes, and flowing waves */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#EBF2F7] via-[#EBF2F7] to-[#F4F8FA] pt-20 md:pt-32 pb-32 md:pb-44 px-6 border-b border-[#D5E2EC] min-h-[600px] flex items-center justify-center">
+        
+        {/* Stripe-style Grid overlay mesh (Linear style) */}
+        <div className="absolute inset-0 z-10 bg-[linear-gradient(to_right,#d5e2ec_1px,transparent_1px),linear-gradient(to_bottom,#d5e2ec_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] opacity-[0.25] pointer-events-none" />
+        <div className="absolute top-0 right-0 -translate-y-24 translate-x-24 w-[400px] md:w-[700px] h-[400px] md:h-[700px] bg-gradient-to-tr from-[#2563EB]/10 to-[#0D9488]/10 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Dynamic flowing ocean waves svg overlay */}
+        <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden pointer-events-none z-10 h-28 md:h-36">
+          <svg className="w-full h-full min-h-[80px] max-h-[140px] block" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
+            <defs>
+              <path id="ocean-wave-path" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44h-352z" />
+            </defs>
+            <g>
+              {/* Layer 1: Deep blue translucent base wave */}
+              <use href="#ocean-wave-path" x="48" y="0" fill="rgba(37,99,235,0.05)" className="animate-wave-layer-1" />
+              {/* Layer 2: Coastal teal swell wave */}
+              <use href="#ocean-wave-path" x="48" y="3" fill="rgba(13,148,136,0.07)" className="animate-wave-layer-2" />
+              {/* Layer 3: Accent tide wave */}
+              <use href="#ocean-wave-path" x="48" y="5" fill="rgba(37,99,235,0.03)" className="animate-wave-layer-3" />
+              {/* Layer 4: Light blending surface wave */}
+              <use href="#ocean-wave-path" x="48" y="7" fill="rgba(244,248,250,0.95)" className="animate-wave-layer-4" />
+            </g>
+          </svg>
+        </div>
+
+        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-20">
           
-          {/* Hero Left Content: Heavy bold title and interactive check query */}
+          {/* Hero Left Content: Title, Query Tool, and Action Buttons */}
           <motion.div 
             className="lg:col-span-7 text-left space-y-6 md:space-y-8"
             initial="hidden"
@@ -181,14 +224,14 @@ export default function LandingView({ onEnterPortal, onLinkAccount, isAuthentica
               </motion.div>
             )}
 
-            {/* Call to Actions Grid */}
+            {/* Call to Actions Grid: Prominent Upload Photo CTA */}
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 pt-2">
               <button
                 onClick={() => onEnterPortal("report")}
                 className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-extrabold px-8 py-4 rounded-2xl text-xs tracking-widest uppercase transition-all duration-200 transform hover:-translate-y-0.5 shadow-[0_6px_20px_rgba(37,99,235,0.15)] flex items-center justify-center gap-2 group cursor-pointer"
               >
-                <span>Report Ocean Hazard</span>
-                <Camera size={14} className="transition-transform group-hover:rotate-6" />
+                <Camera size={14} className="transition-transform group-hover:scale-105" />
+                <span>Upload Photo Log</span>
               </button>
 
               <button
@@ -201,7 +244,7 @@ export default function LandingView({ onEnterPortal, onLinkAccount, isAuthentica
             </motion.div>
           </motion.div>
 
-          {/* Hero Right Content: High-fidelity active circular Radar Sweep scanner */}
+          {/* Hero Right Content: High-fidelity active circular Radar Sweep scanner over a satellite reef image */}
           <motion.div 
             className="lg:col-span-5 flex justify-center w-full"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -225,38 +268,45 @@ export default function LandingView({ onEnterPortal, onLinkAccount, isAuthentica
                 </div>
               </div>
 
-              {/* Circular SVG Radar Sweeper Sweep Visual */}
-              <div className="relative w-44 h-44 mx-auto flex items-center justify-center my-4 shrink-0 bg-[#0B1220] rounded-full border border-[#1E293B] shadow-inner">
+              {/* Circular SVG Radar Sweeper over Satellite ocean image */}
+              <div className="relative w-44 h-44 mx-auto flex items-center justify-center my-4 shrink-0 bg-[#0B1220] rounded-full border border-[#1E293B] shadow-inner overflow-hidden">
+                {/* Satellite ocean reef image background mapping */}
+                <img
+                  src="https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=2000&auto=format&fit=crop"
+                  alt="Satellite radar reef grid"
+                  className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none mix-blend-overlay"
+                />
+
                 {/* SVG radar grids */}
-                <svg className="absolute w-full h-full p-2">
-                  <circle cx="88" cy="88" r="76" stroke="#1E293B" strokeWidth="1" fill="none" strokeDasharray="4" />
-                  <circle cx="88" cy="88" r="54" stroke="#1E293B" strokeWidth="1" fill="none" />
-                  <circle cx="88" cy="88" r="30" stroke="#1E293B" strokeWidth="1" fill="none" />
-                  <line x1="12" y1="88" x2="164" y2="88" stroke="#1e293b" strokeWidth="1" />
-                  <line x1="88" y1="12" x2="88" y2="164" stroke="#1e293b" strokeWidth="1" />
+                <svg className="absolute w-full h-full p-2 z-10">
+                  <circle cx="88" cy="88" r="76" stroke="#0D9488" strokeWidth="1" fill="none" strokeDasharray="4" className="opacity-40" />
+                  <circle cx="88" cy="88" r="54" stroke="#0D9488" strokeWidth="1" fill="none" className="opacity-30" />
+                  <circle cx="88" cy="88" r="30" stroke="#0D9488" strokeWidth="1" fill="none" className="opacity-30" />
+                  <line x1="12" y1="88" x2="164" y2="88" stroke="#0D9488" strokeWidth="1" className="opacity-20" />
+                  <line x1="88" y1="12" x2="88" y2="164" stroke="#0D9488" strokeWidth="1" className="opacity-20" />
                 </svg>
 
                 {/* Sweeping pointer arm (rotates) */}
-                <div className="absolute inset-0 p-2 animate-spin duration-[6s] linear infinite">
+                <div className="absolute inset-0 p-2 animate-spin duration-[6s] linear infinite z-10">
                   <div className="w-1/2 h-[2px] bg-gradient-to-r from-transparent to-[#0D9488] origin-right absolute right-[50%] top-[50%] -translate-y-[50%] shadow-[0_0_8px_#0d9488]" />
                 </div>
 
-                {/* Blinking simulated hazard points (pop up dynamically) */}
-                <div className="absolute top-[35%] left-[25%] flex items-center justify-center">
+                {/* Blinking simulated hazard points */}
+                <div className="absolute top-[35%] left-[25%] flex items-center justify-center z-10">
                   <span className="absolute w-3.5 h-3.5 rounded-full bg-[#EF4444] animate-ping opacity-75" />
                   <span className="w-2 h-2 rounded-full bg-[#EF4444]" />
                 </div>
 
-                <div className="absolute bottom-[25%] right-[30%] flex items-center justify-center">
+                <div className="absolute bottom-[25%] right-[30%] flex items-center justify-center z-10">
                   <span className="absolute w-3.5 h-3.5 rounded-full bg-[#FF7A59] animate-ping opacity-75" />
                   <span className="w-2 h-2 rounded-full bg-[#FF7A59]" />
                 </div>
 
-                <div className="absolute top-[45%] right-[20%] flex items-center justify-center">
+                <div className="absolute top-[45%] right-[20%] flex items-center justify-center z-10">
                   <span className="absolute w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
                 </div>
 
-                <span className="text-[8px] font-black uppercase text-[#0D9488]/80 tracking-widest relative z-10 bg-slate-900/50 px-2 py-0.5 rounded border border-[#1E293B]">
+                <span className="text-[8px] font-black uppercase text-[#0D9488] tracking-widest relative z-25 bg-slate-900/80 px-2 py-0.5 rounded border border-[#0D9488]/30">
                   SCANNING
                 </span>
               </div>

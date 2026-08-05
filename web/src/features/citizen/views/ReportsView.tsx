@@ -114,8 +114,8 @@ export default function ReportsView({ reports, offlineQueue, apiClient }: Report
       setDetail({
         id: selectedId,
         hazard_type: "Oil Spill",
-        latitude: item?.latitude || 25.08,
-        longitude: item?.longitude || -80.18,
+        latitude: item?.latitude || 13.04,
+        longitude: item?.longitude || 80.28,
         created_at: item?.timestamp || new Date().toISOString(),
         description: item?.description || "Simulated hazard report details.",
         status: "CONFIRMED",
@@ -193,7 +193,7 @@ export default function ReportsView({ reports, offlineQueue, apiClient }: Report
                         </span>
                         <span className="flex items-center gap-1">
                           <Clock size={12} className="text-[#0284C7]" />
-                          {new Date(item.timestamp).toLocaleDateString()} at {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          {new Date(item.timestamp).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })} IST
                         </span>
                       </div>
                     </div>
