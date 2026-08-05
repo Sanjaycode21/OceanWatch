@@ -1,0 +1,28 @@
+name: oceanwatch_citizen
+description: Citizen hazard reporting client app for OceanWatch AI.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  flutter_riverpod: ^2.3.6
+  dio: ^5.2.1
+  hive_flutter: ^1.1.0
+  camera: ^0.10.5
+  image_picker: ^1.0.2
+  geolocator: ^10.0.1
+  flutter_map: ^6.0.0
+  latlong2: ^0.9.0
+  uuid: ^3.0.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.1
+
+flutter:
+  uses-material-design: true

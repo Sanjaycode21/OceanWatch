@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --background: #EBF2F7; /* Premium ice-blue */
+  --foreground: #0E1726; /* Deep navy */
+  --card: #F4F8FA;       /* Marine off-white */
+  --border: #D5E2EC;     /* Soft slate border */
+  --primary: #2563EB;    /* Cobalt blue */
+  --secondary: #0D9488;  /* Mint teal */
+  --accent: #FF7A59;     /* Sunset coral */
+  --primary-glow: rgba(37, 99, 235, 0.08);
+  
+  --color-red: #EF4444;
+  --color-orange: #FF7A59;
+  --color-yellow: #EAB308;
+  --color-green: #22C55E;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Custom Scrollbar for Operations Center Dashboard */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0284C7;
+}
+
+/* Custom Leaflet overrides to match command center */
+.leaflet-container {
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+  border: 1px solid #E2E8F0 !important;
+}
+.leaflet-bar {
+  border: 1px solid #E2E8F0 !important;
+}
+.leaflet-bar a {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+.leaflet-bar a:hover {
+  background-color: #F1F5F9 !important;
+}
+.leaflet-popup-content-wrapper {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+}
+.leaflet-popup-tip {
+  background: #FFFFFF !important;
+}
