@@ -33,6 +33,8 @@ import ReportsView from "@/features/citizen/views/ReportsView";
 import SosView from "@/features/citizen/views/SosView";
 import ProfileView from "@/features/citizen/views/ProfileView";
 import AuthModal from "@/features/citizen/components/AuthModal";
+import Dock from "@/features/citizen/components/Dock";
+import TelemetryView from "@/features/citizen/views/TelemetryView";
 
 // Configure isolated citizen API client
 const citizenApi = axios.create({
@@ -49,7 +51,7 @@ citizenApi.interceptors.request.use((config) => {
   return config;
 });
 
-type TabType = "landing" | "home" | "map" | "report" | "alerts" | "reports" | "sos" | "profile";
+type TabType = "landing" | "home" | "map" | "telemetry" | "report" | "alerts" | "reports" | "sos" | "profile";
 
 export default function CitizenDashboardPortal() {
   const [token, setToken] = useState<string | null>(null);
@@ -143,6 +145,7 @@ export default function CitizenDashboardPortal() {
   const menuItems = [
     { id: "home", label: "Home Dashboard", icon: Home },
     { id: "map", label: "Hazard Radar Map", icon: Map },
+    { id: "telemetry", label: "Sensor Analytics", icon: Activity },
     { id: "report", label: "Report Ocean Hazard", icon: Camera },
     { id: "alerts", label: "Active Warnings", icon: AlertTriangle },
     { id: "reports", label: "Submissions Diary", icon: FileText },
@@ -265,68 +268,7 @@ export default function CitizenDashboardPortal() {
             )}
           </AnimatePresence>
 
-          {/* Desktop Left Sidebar navigation */}
-          <aside className="w-64 bg-white border-r border-[#E2E8F0] h-screen sticky top-0 hidden md:flex flex-col justify-between p-6 z-20 shrink-0">
-            <div className="space-y-8">
-              {/* Brand Logo */}
-              <div
-                onClick={() => handleNavigateTab("landing")}
-                className="flex items-center gap-2.5 cursor-pointer hover:opacity-85 transition-opacity"
-              >
-                <img src="/logo.jpg" alt="OceanWatch Logo" className="w-9 h-9 rounded-full object-cover border border-[#D5E2EC]" />
-                <div>
-                  <h2 className="text-xs font-black tracking-widest text-[#0E1726]">OCEANWATCH</h2>
-                  <span className="text-[9px] text-[#64748B] font-bold block uppercase">Citizen Terminal</span>
-                </div>
-              </div>
-
-              {/* Nav links */}
-              <nav className="space-y-1.5">
-                {menuItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => handleNavigateTab(item.id as TabType)}
-                      className={`w-full text-left px-4 py-3 rounded-2xl text-xs font-bold transition-all flex items-center gap-3.5 border ${
-                        activeTab === item.id
-                          ? "bg-[#0284C7]/5 border-[#0284C7]/10 text-[#0284C7]"
-                          : "bg-transparent border-transparent text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]"
-                      }`}
-                    >
-                      <Icon size={16} />
-                      <span>{item.label}</span>
-                    </button>
-                  );
-                })}
-              </nav>
-            </div>
-
-            {/* Bottom session actions */}
-            <div className="pt-6 border-t border-[#E2E8F0] space-y-4">
-              <div className="flex items-center gap-3 bg-[#F8FAFC] border border-[#E2E8F0] p-3 rounded-2xl">
-                <div className="w-8 h-8 bg-[#0284C7]/15 rounded-full flex items-center justify-center text-[#0284C7]">
-                  <User size={16} />
-                </div>
-                <div className="overflow-hidden">
-                  <span className="text-[9px] text-[#64748B] font-bold block uppercase">SESSION STATUS</span>
-                  <p className="text-xs font-bold truncate text-[#0F172A]">
-                    {profile?.full_name || "Guest Sentinel"}
-                  </p>
-                </div>
-              </div>
-
-              {token && (
-                <button
-                  onClick={handleLogout}
-                  className="w-full bg-rose-50 hover:bg-rose-100 border border-rose-100 text-[#EF4444] py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all shadow-sm"
-                >
-                  <LogOut size={14} />
-                  <span>Terminate Link</span>
-                </button>
-              )}
-            </div>
-          </aside>
+          {/* Desktop Left Sidebar navigation removed for full bleed. Dock floats fixed. */}
 
           {/* Right Hand Content panel */}
           <div className="flex-1 flex flex-col h-screen overflow-y-auto">
@@ -365,7 +307,7 @@ export default function CitizenDashboardPortal() {
             </header>
 
             {/* Dynamic View container */}
-            <div className="flex-1 p-6 max-w-5xl w-full mx-auto pb-16">
+            <div className="flex-1 p-6 max-w-5xl w-full mx-auto pb-36">
               
               {activeTab === "home" && (
                 <HomeView
@@ -380,6 +322,10 @@ export default function CitizenDashboardPortal() {
 
               {activeTab === "map" && (
                 <MapView apiClient={citizenApi} />
+              )}
+
+              {activeTab === "telemetry" && (
+                <TelemetryView />
               )}
 
               {activeTab === "report" && (
@@ -424,6 +370,23 @@ export default function CitizenDashboardPortal() {
               )}
             </div>
           </div>
+
+          {/* Floating Dock Navigation */}
+          {activeTab !== "landing" && (
+            <Dock
+              items={menuItems.map((item) => ({
+                icon: <item.icon size={18} />,
+                label: item.label,
+                onClick: () => handleNavigateTab(item.id as TabType),
+                className: `${activeTab === item.id ? "active" : ""} ${
+                  item.id === "report" ? "cta-report" : item.id === "alerts" ? "cta-alerts" : ""
+                }`
+              }))}
+              panelHeight={60}
+              baseItemSize={44}
+              magnification={58}
+            />
+          )}
         </div>
       )}
 
