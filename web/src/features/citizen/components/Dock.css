@@ -1,0 +1,151 @@
+.dock-outer {
+  margin: 0 auto;
+  display: flex;
+  max-width: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  position: fixed;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.dock-panel {
+  display: flex;
+  align-items: flex-end;
+  width: fit-content;
+  gap: 0.75rem;
+  border-radius: 24px;
+  background-color: rgba(244, 248, 250, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(213, 226, 236, 0.8);
+  padding: 0 0.75rem 0.5rem;
+  box-shadow: 
+    0 10px 30px -10px rgba(14, 23, 38, 0.08),
+    0 1px 3px rgba(14, 23, 38, 0.03);
+  pointer-events: auto;
+  margin-bottom: 1.5rem;
+}
+
+.dock-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background-color: #ffffff;
+  border: 1px solid #D5E2EC;
+  box-shadow:
+    0 4px 6px -1px rgba(14, 23, 38, 0.04),
+    0 2px 4px -1px rgba(14, 23, 38, 0.02);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.dock-item:hover, .dock-item:focus {
+  border-color: #2563EB;
+  background-color: #F4F8FA;
+}
+
+.dock-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748B;
+  transition: color 0.15s ease;
+}
+
+.dock-item:hover .dock-icon, .dock-item:focus .dock-icon {
+  color: #2563EB;
+}
+
+.dock-item.active {
+  border-color: #2563EB;
+  background-color: #EBF2F7;
+}
+
+.dock-item.active .dock-icon {
+  color: #2563EB;
+}
+
+/* CTA Highlight - Camera (Report Hazard) */
+.dock-item.cta-report {
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
+  border-color: #2563EB;
+  box-shadow: 
+    0 4px 12px rgba(37, 99, 235, 0.25),
+    0 1px 3px rgba(37, 99, 235, 0.15);
+}
+
+.dock-item.cta-report .dock-icon {
+  color: #ffffff !important;
+}
+
+.dock-item.cta-report:hover, .dock-item.cta-report:focus {
+  background: linear-gradient(135deg, #1D4ED8, #1E40AF);
+  border-color: #1D4ED8;
+  box-shadow: 
+    0 6px 16px rgba(37, 99, 235, 0.35),
+    0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.dock-item.cta-report.active {
+  border-color: #1D4ED8;
+  background: linear-gradient(135deg, #1D4ED8, #1E40AF);
+  box-shadow: 
+    0 0 0 3px rgba(37, 99, 235, 0.25),
+    0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* CTA Highlight - Triangle (Active Warnings) */
+.dock-item.cta-alerts {
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+  border-color: #EF4444;
+  box-shadow: 
+    0 4px 12px rgba(239, 68, 68, 0.25),
+    0 1px 3px rgba(239, 68, 68, 0.15);
+}
+
+.dock-item.cta-alerts .dock-icon {
+  color: #ffffff !important;
+}
+
+.dock-item.cta-alerts:hover, .dock-item.cta-alerts:focus {
+  background: linear-gradient(135deg, #DC2626, #B91C1C);
+  border-color: #DC2626;
+  box-shadow: 
+    0 6px 16px rgba(239, 68, 68, 0.35),
+    0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.dock-item.cta-alerts.active {
+  border-color: #DC2626;
+  background: linear-gradient(135deg, #DC2626, #B91C1C);
+  box-shadow: 
+    0 0 0 3px rgba(239, 68, 68, 0.25),
+    0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.dock-label {
+  position: absolute;
+  top: -2.25rem;
+  left: 50%;
+  width: fit-content;
+  white-space: pre;
+  border-radius: 8px;
+  border: 1px solid #1E293B;
+  background-color: #0E1726;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #F8FAFC;
+  transform: translateX(-50%);
+  box-shadow: 0 4px 12px rgba(14, 23, 38, 0.15);
+  pointer-events: none;
+}
