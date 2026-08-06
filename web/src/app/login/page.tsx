@@ -69,6 +69,7 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen bg-[#EBF2F7] flex items-center justify-center p-6 relative overflow-hidden text-[#0E1726]">
+      <title>OceanWatch - Authority Login</title>
       {/* Background Mission Ocean Wave Shader */}
       <Balatro
         color1="#2563EB"
@@ -89,7 +90,7 @@ export default function LoginPage() {
           <img src="/logo.jpg" alt="OceanWatch Logo" className="w-16 h-16 rounded-full object-cover border-2 border-[#D5E2EC] shadow-md" />
           <div>
             <h1 className="text-lg font-black tracking-wider uppercase text-[#0F172A]">
-              SECURE AUTHORIZATION
+              AUTHORITY LOGIN
             </h1>
             <p className="text-[10px] text-[#64748B] font-bold uppercase tracking-widest mt-1">
               OceanWatch Command Center
