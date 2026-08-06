@@ -230,6 +230,21 @@ export default function Dock({
   dockHeight = 256,
   baseItemSize = 50
 }: DockProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const finalPanelHeight = isMobile ? 54 : panelHeight;
+  const finalBaseItemSize = isMobile ? 38 : baseItemSize;
+  const finalMagnification = isMobile ? 50 : magnification;
+
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
   
@@ -237,15 +252,14 @@ export default function Dock({
   const itemCoords = useRef<number[]>([]);
 
   const maxHeight = useMemo(
-    () => Math.max(dockHeight, magnification + magnification / 2 + 4),
-    [magnification, dockHeight]
+    () => Math.max(dockHeight, finalMagnification + finalMagnification / 2 + 4),
+    [finalMagnification, dockHeight]
   );
-  const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
+  const heightRow = useTransform(isHovered, [0, 1], [finalPanelHeight, maxHeight]);
   const height = useSpring(heightRow, spring);
 
   const handleMouseEnter = () => {
     isHovered.set(1);
-    // Cache the static, unmagnified centers of items to break dynamic layout shift feedback loop
     if (panelRef.current) {
       const itemElements = panelRef.current.querySelectorAll('.dock-item');
       itemCoords.current = Array.from(itemElements).map(el => {
@@ -270,7 +284,7 @@ export default function Dock({
           itemCoords.current = [];
         }}
         className={`dock-panel ${className}`}
-        style={{ height: panelHeight }}
+        style={{ height: finalPanelHeight }}
         role="toolbar"
         aria-label="Application dock"
       >
@@ -284,8 +298,8 @@ export default function Dock({
             mouseX={mouseX}
             spring={spring}
             distance={distance}
-            magnification={magnification}
-            baseItemSize={baseItemSize}
+            magnification={finalMagnification}
+            baseItemSize={finalBaseItemSize}
             label={item.label}
           >
             <DockIcon>{item.icon}</DockIcon>

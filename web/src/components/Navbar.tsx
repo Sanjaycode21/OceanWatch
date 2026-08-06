@@ -2,10 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Shield, LogOut, Radio } from "lucide-react";
+import { Shield, LogOut, Radio, Menu } from "lucide-react";
 import { api } from "@/core/api";
 
-export default function Navbar() {
+interface NavbarProps {
+  onToggleSidebar?: () => void;
+}
+
+export default function Navbar({ onToggleSidebar }: NavbarProps) {
   const router = useRouter();
   const [user, setUser] = useState<{ email: string; role: string } | null>(null);
 
@@ -44,9 +48,17 @@ export default function Navbar() {
   };
 
   return (
-    <header className="h-16 bg-[#F4F8FA] border-b border-[#D5E2EC] flex items-center justify-between px-8 shrink-0">
+    <header className="h-16 bg-[#F4F8FA] border-b border-[#D5E2EC] flex items-center justify-between px-4 sm:px-8 shrink-0">
       {/* System Link status */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
+        {onToggleSidebar && (
+          <button 
+            onClick={onToggleSidebar}
+            className="lg:hidden p-1.5 hover:bg-[#EBF2F7] rounded-xl text-[#64748B] hover:text-[#0E1726] transition-colors"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        )}
         <div className="flex items-center gap-2">
           <Radio className="w-4 h-4 text-[#22C55E] animate-pulse" />
           <span className="text-[10px] font-black uppercase tracking-wider text-[#22C55E]">

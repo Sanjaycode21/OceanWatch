@@ -12,7 +12,11 @@ import {
   Globe
 } from "lucide-react";
 
-export default function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+export default function Sidebar({ onClose }: SidebarProps) {
   const pathname = usePathname();
 
   const links = [
@@ -49,6 +53,7 @@ export default function Sidebar() {
             <Link
               key={link.name}
               href={link.href}
+              onClick={onClose}
               className={`flex items-center gap-3.5 px-4 py-3 text-xs font-bold rounded-2xl transition-all duration-150 ${
                 isActive
                   ? "bg-[#2563EB]/5 text-[#2563EB] border-l-2 border-[#2563EB] shadow-sm"

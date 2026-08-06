@@ -5,7 +5,7 @@
   align-items: flex-end;
   justify-content: center;
   position: fixed;
-  bottom: 0px;
+  bottom: env(safe-area-inset-bottom, 0px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
@@ -286,5 +286,18 @@
   100% {
     transform: scale(0);
     opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .dock-panel {
+    gap: 0.4rem;
+    padding: 0 0.5rem 0.35rem;
+    margin-bottom: 0.75rem;
+    border-radius: 18px;
+  }
+  .dock-icon svg {
+    width: 1.1rem !important;
+    height: 1.1rem !important;
   }
 }
