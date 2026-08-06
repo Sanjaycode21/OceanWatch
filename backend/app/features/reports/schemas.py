@@ -37,6 +37,15 @@ class ReportResponse(BaseModel):
     incident_id: Optional[uuid.UUID] = None
     created_at: datetime
     updated_at: datetime
+    
+    # Extended AI fields
+    severity: Optional[str] = None
+    visible_evidence: Optional[List[str]] = []
+    possible_impacts: Optional[List[str]] = []
+    recommended_action: Optional[str] = None
+    supporting_factors: Optional[List[str]] = []
+    contradicting_factors: Optional[List[str]] = []
+    incident_confidence: Optional[float] = None
 
     class Config:
         from_attributes = True

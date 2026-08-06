@@ -11,6 +11,7 @@ setup_logging()
 
 # Auto-generate database tables dynamically when SQLite fallback is active (for local verification checks)
 if settings.SQLALCHEMY_DATABASE_URI.startswith("sqlite"):
+    from app.features.ai.models import AIAnalysis
     Base.metadata.create_all(bind=engine)
 
 app = FastAPI(

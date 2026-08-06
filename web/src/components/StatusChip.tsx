@@ -3,6 +3,7 @@ export default function StatusChip({ status }: { status: string }) {
     pending_ai_analysis: "bg-slate-50 text-slate-400 border-slate-200",
     ai_processing: "bg-blue-50 text-[#0284C7] border-blue-100",
     under_verification: "bg-yellow-50 text-[#EAB308] border-yellow-100",
+    ai_analyzed: "bg-yellow-50 text-[#EAB308] border-yellow-100",
     fused: "bg-purple-50 text-purple-600 border-purple-100",
     verified: "bg-emerald-50 text-[#22C55E] border-emerald-100",
     rejected: "bg-red-50 text-[#EF4444] border-red-100",

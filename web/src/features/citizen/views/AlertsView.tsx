@@ -8,17 +8,73 @@ interface AlertItem {
   desc: string;
   timestamp: string;
   priority: "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
+  isOsint?: boolean;
+  sources?: string[];
 }
+
+const getSourceIcon = (source: string) => {
+  switch (source.toLowerCase()) {
+    case "citizen": return "📱";
+    case "x": return "𝕏";
+    case "facebook": return "📘";
+    case "reddit": return "🍊";
+    case "news": return "📰";
+    case "government": return "🏛️";
+    case "coast guard": return "⚓";
+    case "weather agency": return "🌀";
+    default: return "🌐";
+  }
+};
 
 export default function AlertsView() {
   const [alertTypeFilter, setAlertTypeFilter] = useState<"all" | "warning" | "advisory" | "alert" | "sos">("all");
 
   const alertsData: AlertItem[] = [
     {
+      id: "osint1",
+      type: "warning",
+      title: "🚨 OSINT ALERT: CRUDE OIL SLICK DRIFTING",
+      desc: "OceanWatch OSINT Correlation has clustered 18 public reports across 6 channels (X posts, local blog feeds) confirming a critical oil spill spreading near Chennai Marina Beach. Avoid water contact.",
+      timestamp: "Just now",
+      priority: "CRITICAL",
+      isOsint: true,
+      sources: ["X", "Facebook", "News", "Coast Guard", "Reddit"],
+    },
+    {
+      id: "osint2",
+      type: "advisory",
+      title: "🦠 OSINT ALERT: GULF OF MANNAR ALGAL BLOOM",
+      desc: "12 reports compiled across public media platforms (citizen photos, X testers, news) indicate a high-toxicity red tide bloom spreading inside the Gulf of Mannar marine zone. Swimmers and shellfishing banned.",
+      timestamp: "15 mins ago",
+      priority: "HIGH",
+      isOsint: true,
+      sources: ["Citizen", "X", "Facebook", "News", "Weather Agency"],
+    },
+    {
+      id: "osint3",
+      type: "warning",
+      title: "🚨 OSINT ALERT: LAKSHADWEEP CORAL THERMAL RESISTANCE STRESS",
+      desc: "Clustered public imagery and reef posts confirm elevated sea temperatures triggering local coral bleaching warnings across Kavaratti reefs. High threat to fish ecosystems.",
+      timestamp: "45 mins ago",
+      priority: "HIGH",
+      isOsint: true,
+      sources: ["X", "Citizen", "News"],
+    },
+    {
+      id: "osint4",
+      type: "alert",
+      title: "🚨 OSINT ALERT: PLASTIC DEBRIS DRIFT TOWARDS SUNDARBANS",
+      desc: "Aggregated citizen reports and local tourist Facebook updates highlight a large plastic clutter drift moving with tide flows towards the Sundarbans mangrove reserve.",
+      timestamp: "1 hour ago",
+      priority: "MEDIUM",
+      isOsint: true,
+      sources: ["Citizen", "Facebook", "X"],
+    },
+    {
       id: "a1",
       type: "warning",
       title: "HIGH WAVE SWEEPS ADVISORY",
-      desc: "Large swells exceeding 4.2m detected by coastal radar nodes in Sector B. Fishing vessels advised to anchor immediately.",
+      desc: "Large swells exceeding 4.2m detected by coastal radar nodes near Kanyakumari Coast. Fishing vessels advised to anchor immediately.",
       timestamp: "10 mins ago",
       priority: "CRITICAL",
     },
@@ -26,7 +82,7 @@ export default function AlertsView() {
       id: "a2",
       type: "advisory",
       title: "GOVERNMENT ECOLOGICAL NOTICE: CHEMICAL DISCHARGE",
-      desc: "Estuary sectors closed near Ennore port boundaries due to detected heavy runoffs. Avoid water contact.",
+      desc: "Estuary sectors closed near Ennore Port boundaries due to detected heavy chemical runoffs. Avoid water contact.",
       timestamp: "2 hours ago",
       priority: "HIGH",
     },
@@ -34,7 +90,7 @@ export default function AlertsView() {
       id: "a3",
       type: "alert",
       title: "DEBRIS DRIFT CLUSTER RECORDED",
-      desc: "Large patch of plastic debris and wooden clutter floating in Sector C coordinates. Navigation caution required.",
+      desc: "Large patch of plastic debris and wooden clutter floating in Mumbai Harbor coordinates. Navigation caution required.",
       timestamp: "5 hours ago",
       priority: "MEDIUM",
     },
@@ -42,15 +98,15 @@ export default function AlertsView() {
       id: "a4",
       type: "sos",
       title: "SOS BROADCAST DISPATCH: MEDICAL EVACUATION",
-      desc: "Rescue squad dispatched to coordinate overboard swimmer recovery near Sector A. Area vessels stand by.",
+      desc: "Indian Coast Guard helicopter dispatched to coordinate overboard fisherman recovery near Chennai Port boundaries. Area vessels stand by.",
       timestamp: "1 day ago",
       priority: "CRITICAL",
     },
     {
       id: "a5",
       type: "advisory",
-      title: "TORNADO SURGE STORM UPDATE",
-      desc: "Emergency weather systems tracking storm boundaries. Swell warnings remain active.",
+      title: "CYCLONE STORM WARNING UPDATE",
+      desc: "Emergency weather systems tracking storm boundaries in the Bay of Bengal. Swell warnings remain active.",
       timestamp: "1 day ago",
       priority: "LOW",
     },
@@ -157,8 +213,28 @@ export default function AlertsView() {
                   {getAlertIcon(alt.type)}
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-xs font-black tracking-wide text-[#0F172A]">{alt.title}</h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-xs font-black tracking-wide text-[#0F172A]">{alt.title}</h3>
+                    {alt.isOsint && (
+                      <span className="bg-blue-600/10 text-blue-600 border border-blue-500/20 px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-wider animate-pulse">
+                        OSINT Fusion
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs text-[#64748B] leading-relaxed max-w-xl font-semibold">{alt.desc}</p>
+                  
+                  {alt.sources && alt.sources.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-2 pt-2">
+                      <span className="text-[9px] text-[#64748B] font-black uppercase tracking-wider">Clustered Channels:</span>
+                      {alt.sources.map((src, sIdx) => (
+                        <span key={sIdx} className="bg-slate-100 border border-[#E2E8F0] text-[#334155] text-[9px] px-2 py-0.5 rounded-lg font-black flex items-center gap-1">
+                          <span>{getSourceIcon(src)}</span>
+                          <span>{src}</span>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
                   <span className="text-[10px] text-[#64748B] font-bold block pt-1">{alt.timestamp}</span>
                 </div>
               </div>

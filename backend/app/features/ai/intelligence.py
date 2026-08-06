@@ -105,7 +105,7 @@ class MockIncidentIntelligenceEngine(BaseIncidentIntelligenceEngine):
             if report.verification_status == "Verified":
                 report.report_status = "VERIFIED"
             else:
-                report.report_status = "UNDER_VERIFICATION"
+                report.report_status = "AI_ANALYZED"
                 
             db.add(report)
             db.commit()

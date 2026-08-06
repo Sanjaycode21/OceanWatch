@@ -10,7 +10,12 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "OceanWatch AI"
     
     SECRET_KEY: str = "placeholder_secret_key_change_me_in_production_1234567890_oceanwatch"
+    class_name: str = "HS256"
     ALGORITHM: str = "HS256"
+    
+    # AI configurations
+    GEMINI_API_KEY: Optional[str] = None
+    GOOGLE_GENAI_MODEL: str = "gemini-2.5-flash"
     
     # Token lifespans
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
@@ -20,9 +25,7 @@ class Settings(BaseSettings):
     MAX_UPLOAD_SIZE_MB: int = 20
     UPLOAD_DIR: str = "uploads"
     
-    # AI configurations
-    GEMINI_API_KEY: str = ""
-    GOOGLE_GENAI_MODEL: str = "gemini-1.5-flash"
+
     
     # CORS Origins (supports lists or comma-separated strings)
     BACKEND_CORS_ORIGINS: List[str] = ["*"]

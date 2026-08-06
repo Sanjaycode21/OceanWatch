@@ -1,0 +1,290 @@
+.dock-outer {
+  margin: 0 auto;
+  display: flex;
+  max-width: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  position: fixed;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.dock-panel {
+  display: flex;
+  align-items: flex-end;
+  width: fit-content;
+  gap: 0.75rem;
+  border-radius: 24px;
+  background-color: rgba(244, 248, 250, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(213, 226, 236, 0.8);
+  padding: 0 0.75rem 0.5rem;
+  box-shadow: 
+    0 10px 30px -10px rgba(14, 23, 38, 0.08),
+    0 1px 3px rgba(14, 23, 38, 0.03);
+  pointer-events: auto;
+  margin-bottom: 1.5rem;
+}
+
+.dock-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background-color: #ffffff;
+  border: 1px solid #D5E2EC;
+  box-shadow:
+    0 4px 6px -1px rgba(14, 23, 38, 0.04),
+    0 2px 4px -1px rgba(14, 23, 38, 0.02);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.dock-item:hover, .dock-item:focus {
+  border-color: #2563EB;
+  background-color: #F4F8FA;
+}
+
+.dock-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748B;
+  transition: color 0.15s ease;
+}
+
+.dock-item:hover .dock-icon, .dock-item:focus .dock-icon {
+  color: #2563EB;
+}
+
+.dock-item.active {
+  border-color: #2563EB;
+  background-color: #EBF2F7;
+}
+
+.dock-item.active .dock-icon {
+  color: #2563EB;
+}
+
+/* CTA Highlight - Camera (Report Hazard) */
+.dock-item.cta-report {
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
+  border-color: #2563EB;
+  box-shadow: 
+    0 4px 12px rgba(37, 99, 235, 0.25),
+    0 1px 3px rgba(37, 99, 235, 0.15);
+}
+
+.dock-item.cta-report .dock-icon {
+  color: #ffffff !important;
+}
+
+.dock-item.cta-report:hover, .dock-item.cta-report:focus {
+  background: linear-gradient(135deg, #1D4ED8, #1E40AF);
+  border-color: #1D4ED8;
+  box-shadow: 
+    0 6px 16px rgba(37, 99, 235, 0.35),
+    0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.dock-item.cta-report.active {
+  border-color: #1D4ED8;
+  background: linear-gradient(135deg, #1D4ED8, #1E40AF);
+  box-shadow: 
+    0 0 0 3px rgba(37, 99, 235, 0.25),
+    0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* CTA Highlight - Triangle (Active Warnings) */
+.dock-item.cta-alerts {
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+  border-color: #EF4444;
+  box-shadow: 
+    0 4px 12px rgba(239, 68, 68, 0.25),
+    0 1px 3px rgba(239, 68, 68, 0.15);
+}
+
+.dock-item.cta-alerts .dock-icon {
+  color: #ffffff !important;
+}
+
+.dock-item.cta-alerts:hover, .dock-item.cta-alerts:focus {
+  background: linear-gradient(135deg, #DC2626, #B91C1C);
+  border-color: #DC2626;
+  box-shadow: 
+    0 6px 16px rgba(239, 68, 68, 0.35),
+    0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.dock-item.cta-alerts.active {
+  border-color: #DC2626;
+  background: linear-gradient(135deg, #DC2626, #B91C1C);
+  box-shadow: 
+    0 0 0 3px rgba(239, 68, 68, 0.25),
+    0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* CTA Highlight - SOS (Emergency Distress) */
+.dock-item.cta-sos {
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+  border-color: #EF4444;
+  box-shadow: 
+    0 4px 12px rgba(239, 68, 68, 0.25),
+    0 1px 3px rgba(239, 68, 68, 0.15);
+  animation: sos-pulse 2s infinite ease-in-out;
+}
+
+@keyframes sos-pulse {
+  0% {
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.65);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+  }
+}
+
+.dock-item.cta-sos .dock-icon {
+  color: #ffffff !important;
+}
+
+.dock-item.cta-sos:hover, .dock-item.cta-sos:focus {
+  background: linear-gradient(135deg, #DC2626, #B91C1C);
+  border-color: #DC2626;
+  box-shadow: 
+    0 6px 16px rgba(239, 68, 68, 0.35),
+    0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.dock-item.cta-sos.active {
+  border-color: #DC2626;
+  background: linear-gradient(135deg, #DC2626, #B91C1C);
+  box-shadow: 
+    0 0 0 3px rgba(239, 68, 68, 0.25),
+    0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.dock-label {
+  position: absolute;
+  top: -2.25rem;
+  left: 50%;
+  width: fit-content;
+  white-space: pre;
+  border-radius: 8px;
+  border: 1px solid #1E293B;
+  background-color: #0E1726;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #F8FAFC;
+  transform: translateX(-50%);
+  box-shadow: 0 4px 12px rgba(14, 23, 38, 0.15);
+  pointer-events: none;
+}
+
+/* Gooey Nav Bubble Particles Integration CSS */
+:root {
+  --color-1: #2563EB; /* Ocean Blue */
+  --color-2: #14B8A6; /* Teal */
+  --color-3: #06B6D4; /* Cyan */
+  --color-4: #EF4444; /* Danger Red */
+}
+
+.gooey-particle-box {
+  position: absolute;
+  inset: -65px;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(5px) contrast(20);
+  mix-blend-mode: multiply;
+}
+
+.gooey-particle-box .particle,
+.gooey-particle-box .point {
+  display: block;
+  opacity: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+  transform-origin: center;
+}
+
+.gooey-particle-box .particle {
+  --time: 600ms;
+  position: absolute;
+  top: calc(50% - 7px);
+  left: calc(50% - 7px);
+  animation: particle calc(var(--time)) ease-in-out 1;
+}
+
+.gooey-particle-box .point {
+  background: var(--color);
+  opacity: 1;
+  animation: point calc(var(--time)) ease-in-out 1;
+}
+
+@keyframes particle {
+  0% {
+    transform: rotate(0deg) translate(calc(var(--start-x)), calc(var(--start-y)));
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+
+  70% {
+    transform: rotate(calc(var(--rotate) * 0.5)) translate(calc(var(--end-x) * 1.2), calc(var(--end-y) * 1.2));
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+
+  85% {
+    transform: rotate(calc(var(--rotate) * 0.66)) translate(calc(var(--end-x)), calc(var(--end-y)));
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(calc(var(--rotate) * 1.2)) translate(calc(var(--end-x) * 0.5), calc(var(--end-y) * 0.5));
+    opacity: 1;
+  }
+}
+
+@keyframes point {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+
+  25% {
+    transform: scale(calc(var(--scale) * 0.25));
+  }
+
+  38% {
+    opacity: 1;
+  }
+
+  65% {
+    transform: scale(var(--scale));
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+
+  85% {
+    transform: scale(var(--scale));
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}

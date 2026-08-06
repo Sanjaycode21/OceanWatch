@@ -37,14 +37,15 @@ class AIOrchestrator:
             raise ValueError(f"Report {report_id} not found")
             
         try:
-            # Stage 1: Mark processing status
+            # Stage 1: Mark processing status and clear previous incident link if re-running
             report.report_status = "AI_PROCESSING"
+            report.incident_id = None
             db.commit()
             db.refresh(report)
             logger.info("AI Pipeline [Stage 1/5]: Status set to AI_PROCESSING")
             
             # Stage 2: Category and type classification
-            detect_res = self.detector.detect_hazard(report.image_url, report.description)
+            detect_res = self.detector.detect_hazard(db, report)
             report.hazard_category = detect_res["hazard_category"]
             report.hazard_type = detect_res["hazard_type"]
             report.detection_confidence = detect_res["confidence"]

@@ -14,6 +14,12 @@ logger = logging.getLogger("seed_user")
 def seed_operator() -> None:
     logger.info("Initializing authority user seed...")
     from app.core.database import engine, Base
+    from app.features.users.models import User
+    from app.features.reports.models import Report, CredibilityFactor
+    from app.features.ai.models import AIAnalysis
+    from app.features.incidents.models import FusedIncident
+    from app.features.alerts.models import Alert
+    from app.features.sos.models import SOSRequest
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
@@ -31,6 +37,21 @@ def seed_operator() -> None:
             logger.info("Default authority user 'authority@oceanwatch.com' created successfully.")
         else:
             logger.info("Default authority user already exists. Skipping.")
+
+        # Seed citizen profile for Deepan
+        existing_citizen = db.query(User).filter(User.email == "deepan@oceanwatch.in").first()
+        if not existing_citizen:
+            citizen_in = UserCreate(
+                email="deepan@oceanwatch.in",
+                phone="+919876543210",
+                password="Citizen123!",
+                full_name="Deepan",
+                role="citizen"
+            )
+            crud.create_user(db, citizen_in)
+            logger.info("Default citizen user 'deepan@oceanwatch.in' created successfully.")
+        else:
+            logger.info("Default citizen user already exists. Skipping.")
     except Exception as e:
         logger.error(f"User seed failed: {e}")
     finally:

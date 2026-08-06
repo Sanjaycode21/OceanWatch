@@ -15,9 +15,9 @@ import {
 } from "lucide-react";
 import axios from "axios";
 
-// Default Caribbean / Gulf center coordinates
-const DEFAULT_CENTER: [number, number] = [25.0, -80.0];
-const DEFAULT_ZOOM = 7;
+// Default Indian Ocean (Chennai coast) center coordinates
+const DEFAULT_CENTER: [number, number] = [13.0827, 80.2707];
+const DEFAULT_ZOOM = 11;
 
 interface MapInnerProps {
   incidents: any[];
@@ -177,7 +177,7 @@ export default function CitizenMapInner({ incidents, apiClient }: MapInnerProps)
                       </span>
                       <span className="flex items-center gap-1">
                         <Calendar className="w-3.5 h-3.5 text-[#0284C7]" />
-                        {new Date(detail.created_at).toLocaleDateString()}
+                        {new Date(detail.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })} IST
                       </span>
                     </div>
                   </div>

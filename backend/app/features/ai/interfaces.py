@@ -7,7 +7,7 @@ from app.features.alerts.models import Alert
 
 class BaseHazardDetectionService(abc.ABC):
     @abc.abstractmethod
-    def detect_hazard(self, image_url: Optional[str], description: Optional[str]) -> Dict[str, Any]:
+    def detect_hazard(self, db: Session, report: Report) -> Dict[str, Any]:
         """Analyzes media and description to classify hazard type and category."""
         pass
 

@@ -1,4 +1,5 @@
 import uuid
+from typing import Optional
 from datetime import datetime, timezone
 from sqlalchemy import Column, DateTime, Float, ForeignKey, String, Text, Boolean
 from sqlalchemy.orm import relationship
@@ -62,6 +63,36 @@ class Report(Base):
     user = relationship("User", back_populates="reports")
     incident = relationship("FusedIncident", back_populates="reports")
     credibility_factors = relationship("CredibilityFactor", back_populates="report", cascade="all, delete-orphan")
+    ai_analysis = relationship("AIAnalysis", back_populates="report", uselist=False, cascade="all, delete-orphan")
+
+    @property
+    def severity(self) -> Optional[str]:
+        return self.ai_analysis.severity if self.ai_analysis else None
+
+    @property
+    def visible_evidence(self) -> list[str]:
+        return self.ai_analysis.visible_evidence if self.ai_analysis and self.ai_analysis.visible_evidence else []
+
+    @property
+    def possible_impacts(self) -> list[str]:
+        return self.ai_analysis.possible_impacts if self.ai_analysis and self.ai_analysis.possible_impacts else []
+
+    @property
+    def recommended_action(self) -> Optional[str]:
+        return self.ai_analysis.recommended_action if self.ai_analysis else None
+
+    @property
+    def supporting_factors(self) -> list[str]:
+        return [cf.factor_name for cf in self.credibility_factors if cf.passed]
+
+    @property
+    def contradicting_factors(self) -> list[str]:
+        return [cf.factor_name for cf in self.credibility_factors if not cf.passed]
+
+    @property
+    def incident_confidence(self) -> Optional[float]:
+        return self.incident.incident_confidence if self.incident else None
+
 
 
 class CredibilityFactor(Base):

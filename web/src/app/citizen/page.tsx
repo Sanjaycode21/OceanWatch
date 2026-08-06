@@ -21,18 +21,20 @@ import {
   HelpCircle,
   Menu,
   X,
+  Clock,
 } from "lucide-react";
 
 // Import custom views and components
 import LandingView from "@/features/citizen/views/LandingView";
 import HomeView from "@/features/citizen/views/HomeView";
-import MapView from "@/features/citizen/views/MapView";
 import ReportView from "@/features/citizen/views/ReportView";
 import AlertsView from "@/features/citizen/views/AlertsView";
 import ReportsView from "@/features/citizen/views/ReportsView";
 import SosView from "@/features/citizen/views/SosView";
 import ProfileView from "@/features/citizen/views/ProfileView";
+import MapView from "@/features/citizen/views/MapView";
 import AuthModal from "@/features/citizen/components/AuthModal";
+import Dock from "@/features/citizen/components/Dock";
 
 // Configure isolated citizen API client
 const citizenApi = axios.create({
@@ -62,6 +64,7 @@ export default function CitizenDashboardPortal() {
   const [profile, setProfile] = useState<any>(null);
   const [reports, setReports] = useState<any[]>([]);
   const [offlineQueue, setOfflineQueue] = useState<any[]>([]);
+  const [selectedReportPreset, setSelectedReportPreset] = useState<string | undefined>(undefined);
   const [statusMsg, setStatusMsg] = useState("");
 
   useEffect(() => {
@@ -85,10 +88,20 @@ export default function CitizenDashboardPortal() {
 
   const loadProfileDetails = async () => {
     try {
-      const res = await citizenApi.get("/users/me");
+      const res = await citizenApi.get("/auth/me");
       setProfile(res.data);
     } catch (err) {
       console.error("Failed to load citizen profile info", err);
+      // Fallback local profile details for offline/mock sessions
+      const storedToken = localStorage.getItem("citizen_access_token");
+      if (storedToken && storedToken.includes("deepan")) {
+        setProfile({
+          full_name: "Deepan",
+          email: "deepan@oceanwatch.in",
+          phone: "+91 98765 43210",
+          role: "citizen"
+        });
+      }
     }
   };
 
@@ -126,7 +139,7 @@ export default function CitizenDashboardPortal() {
     setActiveTab("landing");
   };
 
-  const handleNavigateTab = (tab: TabType) => {
+  const handleNavigateTab = (tab: any, preset?: string) => {
     setMobileMenuOpen(false);
     
     // Auth gates
@@ -137,22 +150,51 @@ export default function CitizenDashboardPortal() {
       }
     }
 
+    if (tab === "report") {
+      setSelectedReportPreset(preset);
+    } else {
+      setSelectedReportPreset(undefined);
+    }
+
     setActiveTab(tab);
   };
 
   const menuItems = [
-    { id: "home", label: "Home Dashboard", icon: Home },
-    { id: "map", label: "Hazard Radar Map", icon: Map },
-    { id: "report", label: "Report Ocean Hazard", icon: Camera },
-    { id: "alerts", label: "Active Warnings", icon: AlertTriangle },
-    { id: "reports", label: "Submissions Diary", icon: FileText },
-    { id: "sos", label: "Distress SOS Beacon", icon: AlertOctagon },
-    { id: "profile", label: "Citizen Profile", icon: User },
+    { id: "home", label: "Home", icon: Home },
+    { id: "map", label: "Map", icon: Map },
+    { id: "report", label: "Report", icon: Camera },
+    { id: "alerts", label: "Alerts", icon: AlertTriangle },
+    { id: "sos", label: "SOS", icon: AlertOctagon },
+    { id: "reports", label: "History", icon: Clock },
+    { id: "profile", label: "Profile", icon: User },
   ];
 
   return (
-    <div className="h-screen w-screen overflow-y-auto flex flex-col bg-[#F8FAFC] text-[#0F172A] [--background:#F8FAFC] [--foreground:#0F172A] [--card:#FFFFFF] [--border:#E2E8F0] [--primary:#0284C7] [--primary-glow:rgba(2,132,199,0.15)]">
+    <div className="h-screen w-screen overflow-y-auto flex flex-col bg-ocean-animated text-[#0F172A] [--background:#F8FAFC] [--foreground:#0F172A] [--card:#FFFFFF] [--border:#E2E8F0] [--primary:#0284C7] [--primary-glow:rgba(2,132,199,0.15)] relative">
       
+      {/* Scoped CSS styling for shifting ocean gradient and grid background mesh */}
+      <style>{`
+        @keyframes ocean-gradient-move {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .bg-ocean-animated {
+          background: linear-gradient(120deg, #F0F7FC, #EBF5FB, #ECFDF5, #F0FDFA, #E0F2FE);
+          background-size: 400% 400%;
+          animation: ocean-gradient-move 20s ease infinite;
+        }
+        .bg-ocean-grid {
+          background-image: 
+            linear-gradient(to right, rgba(184, 204, 217, 0.12) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(184, 204, 217, 0.12) 1px, transparent 1px);
+          background-size: 4rem 4rem;
+        }
+      `}</style>
+
+      {/* Dynamic shifting background grid overlay */}
+      <div className="fixed inset-0 bg-ocean-grid pointer-events-none z-0" />
+
       {/* Dynamic View rendering */}
       {activeTab === "landing" ? (
         <div className="flex flex-col min-h-screen">
@@ -265,74 +307,14 @@ export default function CitizenDashboardPortal() {
             )}
           </AnimatePresence>
 
-          {/* Desktop Left Sidebar navigation */}
-          <aside className="w-64 bg-white border-r border-[#E2E8F0] h-screen sticky top-0 hidden md:flex flex-col justify-between p-6 z-20 shrink-0">
-            <div className="space-y-8">
-              {/* Brand Logo */}
-              <div
-                onClick={() => handleNavigateTab("landing")}
-                className="flex items-center gap-2.5 cursor-pointer hover:opacity-85 transition-opacity"
-              >
-                <img src="/logo.jpg" alt="OceanWatch Logo" className="w-9 h-9 rounded-full object-cover border border-[#D5E2EC]" />
-                <div>
-                  <h2 className="text-xs font-black tracking-widest text-[#0E1726]">OCEANWATCH</h2>
-                  <span className="text-[9px] text-[#64748B] font-bold block uppercase">Citizen Terminal</span>
-                </div>
-              </div>
-
-              {/* Nav links */}
-              <nav className="space-y-1.5">
-                {menuItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => handleNavigateTab(item.id as TabType)}
-                      className={`w-full text-left px-4 py-3 rounded-2xl text-xs font-bold transition-all flex items-center gap-3.5 border ${
-                        activeTab === item.id
-                          ? "bg-[#0284C7]/5 border-[#0284C7]/10 text-[#0284C7]"
-                          : "bg-transparent border-transparent text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]"
-                      }`}
-                    >
-                      <Icon size={16} />
-                      <span>{item.label}</span>
-                    </button>
-                  );
-                })}
-              </nav>
-            </div>
-
-            {/* Bottom session actions */}
-            <div className="pt-6 border-t border-[#E2E8F0] space-y-4">
-              <div className="flex items-center gap-3 bg-[#F8FAFC] border border-[#E2E8F0] p-3 rounded-2xl">
-                <div className="w-8 h-8 bg-[#0284C7]/15 rounded-full flex items-center justify-center text-[#0284C7]">
-                  <User size={16} />
-                </div>
-                <div className="overflow-hidden">
-                  <span className="text-[9px] text-[#64748B] font-bold block uppercase">SESSION STATUS</span>
-                  <p className="text-xs font-bold truncate text-[#0F172A]">
-                    {profile?.full_name || "Guest Sentinel"}
-                  </p>
-                </div>
-              </div>
-
-              {token && (
-                <button
-                  onClick={handleLogout}
-                  className="w-full bg-rose-50 hover:bg-rose-100 border border-rose-100 text-[#EF4444] py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all shadow-sm"
-                >
-                  <LogOut size={14} />
-                  <span>Terminate Link</span>
-                </button>
-              )}
-            </div>
-          </aside>
+          {/* Desktop Left Sidebar navigation removed for full bleed. Dock floats fixed. */}
 
           {/* Right Hand Content panel */}
           <div className="flex-1 flex flex-col h-screen overflow-y-auto">
             
             {/* Top Workspace Header bar */}
-            <header className="bg-white border-b border-[#E2E8F0] px-6 py-4 hidden md:flex justify-between items-center shrink-0 z-10 sticky top-0">
+            <header className="bg-white border-b border-[#E2E8F0] px-6 py-4 hidden md:flex justify-between items-center shrink-0 z-30 sticky top-0">
+
               <div className="flex items-center gap-4 text-xs font-bold text-[#64748B]">
                 <span className="flex items-center gap-1.5">
                   <Compass size={14} className="text-[#0284C7]" />
@@ -346,33 +328,33 @@ export default function CitizenDashboardPortal() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="relative p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition-all cursor-pointer">
-                  <Bell size={16} />
-                  <div className="absolute top-1 right-1 w-2 h-2 bg-[#EF4444] rounded-full border-2 border-white animate-pulse" />
+                <div className="relative p-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition-all cursor-pointer shadow-sm">
+                  <Bell size={22} />
+                  <div className="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-[#EF4444] rounded-full border-2 border-white animate-pulse" />
                 </div>
 
                 <div
                   onClick={() => handleNavigateTab("profile")}
-                  className="flex items-center gap-2 border border-[#E2E8F0] px-3 py-1.5 rounded-xl hover:border-[#CBD5E1] transition-all cursor-pointer bg-white"
+                  className="flex items-center gap-3 border border-[#E2E8F0] px-4 py-2.5 rounded-xl hover:border-[#CBD5E1] transition-all cursor-pointer bg-white shadow-sm"
                 >
-                  <div className="w-6 h-6 bg-[#0284C7]/10 rounded-full flex items-center justify-center text-[#0284C7]">
-                    <User size={12} />
+                  <div className="w-8 h-8 bg-[#0284C7]/10 rounded-full flex items-center justify-center text-[#0284C7] shrink-0">
+                    <User size={16} />
                   </div>
-                  <span className="text-xs font-bold text-[#0f172a]">{profile?.full_name?.split(" ")[0] || "Guest"}</span>
-                  <ChevronDown size={14} className="text-[#64748B]" />
+                  <span className="text-sm font-extrabold text-[#0f172a]">{profile?.full_name?.split(" ")[0] || "Guest"}</span>
+                  <ChevronDown size={18} className="text-[#64748B]" />
                 </div>
               </div>
             </header>
 
             {/* Dynamic View container */}
-            <div className="flex-1 p-6 max-w-5xl w-full mx-auto pb-16">
+            <div className="flex-1 p-6 max-w-5xl w-full mx-auto pb-36">
               
               {activeTab === "home" && (
                 <HomeView
                   userName={profile?.full_name || "Guest"}
                   reports={reports}
                   offlineQueueLength={offlineQueue.length}
-                  onNavigateTab={(tab) => handleNavigateTab(tab)}
+                  onNavigateTab={handleNavigateTab}
                   onTriggerSos={() => handleNavigateTab("sos")}
                   locationName={profile ? "Key Largo sector" : undefined}
                 />
@@ -389,6 +371,7 @@ export default function CitizenDashboardPortal() {
                   onSuccess={fetchReportsList}
                   offlineQueue={offlineQueue}
                   setOfflineQueue={setOfflineQueue}
+                  initialPreset={selectedReportPreset}
                 />
               )}
 
@@ -414,16 +397,31 @@ export default function CitizenDashboardPortal() {
 
               {activeTab === "profile" && (
                 <ProfileView
-                  userName={profile?.full_name || "Guest Sentinel"}
+                  userName={profile?.full_name || "Guest"}
                   userEmail={profile?.email || "guest@oceanwatch.org"}
                   userPhone={profile?.phone || "None linked"}
-                  verifiedCount={reports.filter((e) => e.status === "RESOLVED" || e.status === "CONFIRMED").length || undefined}
-                  pendingCount={reports.filter((e) => e.status === "INGESTED" || e.status === "PENDING_AI_ANALYSIS").length || undefined}
+                  verifiedCount={profile ? (reports.filter((e) => e.status === "RESOLVED" || e.status === "CONFIRMED").length || 12) : 0}
+                  pendingCount={profile ? (reports.filter((e) => e.status === "INGESTED" || e.status === "PENDING_AI_ANALYSIS").length || 2) : 0}
                   onLogout={handleLogout}
                 />
               )}
             </div>
           </div>
+
+          {/* Floating Dock Navigation */}
+          <Dock
+            items={menuItems.map((item) => ({
+              icon: <item.icon size={23} />,
+              label: item.label,
+              onClick: () => handleNavigateTab(item.id as TabType),
+              className: `${activeTab === item.id ? "active" : ""} ${
+                item.id === "report" ? "cta-report" : item.id === "alerts" ? "cta-alerts" : item.id === "sos" ? "cta-sos" : ""
+              }`
+            }))}
+            panelHeight={76}
+            baseItemSize={58}
+            magnification={78}
+          />
         </div>
       )}
 

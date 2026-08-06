@@ -20,6 +20,12 @@ def seed_categories() -> None:
     logger.info("Initializing hazard categories database seed...")
     
     # Auto-generate database tables (safe for local sqlite verification run)
+    from app.features.users.models import User
+    from app.features.reports.models import Report, CredibilityFactor
+    from app.features.ai.models import AIAnalysis
+    from app.features.incidents.models import FusedIncident
+    from app.features.alerts.models import Alert
+    from app.features.sos.models import SOSRequest
     Base.metadata.create_all(bind=engine)
     
     db = SessionLocal()

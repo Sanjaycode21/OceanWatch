@@ -8,18 +8,20 @@ import {
   AlertOctagon, 
   Bell, 
   BarChart3, 
-  ShieldCheck 
+  ShieldCheck,
+  Globe
 } from "lucide-react";
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   const links = [
-    { name: "Dashboard", href: "/", icon: LayoutDashboard },
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Live GIS Map", href: "/map", icon: Map },
     { name: "SOS Requests", href: "/sos", icon: AlertOctagon },
     { name: "Alerts Center", href: "/alerts", icon: Bell },
     { name: "Analytics", href: "/analytics", icon: BarChart3 },
+    { name: "OSINT Intelligence", href: "/intelligence", icon: Globe },
     { name: "Citizen Trust", href: "/trust", icon: ShieldCheck },
   ];
 

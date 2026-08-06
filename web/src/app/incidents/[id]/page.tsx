@@ -99,7 +99,7 @@ export default function IncidentDetailsPage() {
     <DashboardLayout>
       <div className="space-y-8 font-mono text-xs">
         {/* Back Link */}
-        <Link href="/" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-slate-200 cursor-pointer mb-2">
+        <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-slate-200 cursor-pointer mb-2">
           <ChevronLeft className="w-4 h-4" />
           BACK TO COMMAND CENTRAL
         </Link>

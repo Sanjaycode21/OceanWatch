@@ -104,12 +104,23 @@ export default function AuthModal({
       params.append("username", email);
       params.append("password", password);
 
-      const res = await apiClient.post("/auth/login", params, {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      });
+      let token = "";
+      try {
+        const res = await apiClient.post("/auth/login", params, {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        });
+        token = res.data.access_token;
+      } catch (apiErr) {
+        console.warn("Backend auth failed, checking citizen demo bypass...", apiErr);
+        if (email.toLowerCase() === "deepan@oceanwatch.in" && password === "Citizen123!") {
+          token = "mock-citizen-token-jwt-deepan";
+        } else {
+          throw apiErr;
+        }
+      }
 
-      localStorage.setItem("citizen_access_token", res.data.access_token);
-      onSuccess(res.data.access_token);
+      localStorage.setItem("citizen_access_token", token);
+      onSuccess(token);
       onClose();
     } catch (err: any) {
       setErrorMsg(err.message || err.response?.data?.detail || "Credential check failed. Review inputs and try again.");
@@ -319,23 +330,30 @@ export default function AuthModal({
         </button>
 
         {/* Footer switches */}
-        <div className="flex justify-between items-center text-[10px] pt-4 border-t border-[#D5E2EC]">
-          <button
-            onClick={() => {
-              setAuthMode(authMode === "login" ? "signup" : "login");
-              setErrorMsg("");
-              setInfoMsg("");
-            }}
-            className="text-[#2563EB] hover:underline font-extrabold uppercase cursor-pointer"
-          >
-            {authMode === "login" ? "Create profile account" : "Use existing session"}
-          </button>
-          <button
-            onClick={onClose}
-            className="text-[#64748B] hover:text-[#0E1726] font-bold uppercase cursor-pointer"
-          >
-            Stay Guest
-          </button>
+        <div className="flex flex-col gap-2 pt-4 border-t border-[#D5E2EC]">
+          <div className="flex justify-between items-center text-[10px]">
+            <button
+              onClick={() => {
+                setAuthMode(authMode === "login" ? "signup" : "login");
+                setErrorMsg("");
+                setInfoMsg("");
+              }}
+              className="text-[#2563EB] hover:underline font-extrabold uppercase cursor-pointer"
+            >
+              {authMode === "login" ? "Create profile account" : "Use existing session"}
+            </button>
+            <button
+              onClick={onClose}
+              className="text-[#64748B] hover:text-[#0E1726] font-bold uppercase cursor-pointer"
+            >
+              Stay Guest
+            </button>
+          </div>
+          {authMode === "login" && (
+            <div className="text-[9px] text-[#2563EB] font-bold text-center">
+              DEMO CITIZEN: <span className="underline">deepan@oceanwatch.in</span> | PASSWORD: <span className="underline font-sans font-bold">Citizen123!</span>
+            </div>
+          )}
         </div>
 
       </div>

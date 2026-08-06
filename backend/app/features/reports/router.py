@@ -73,7 +73,8 @@ async def create_report(
     video: Optional[UploadFile] = File(None),
     db: Session = Depends(deps.get_db),
     current_user: User = Depends(deps.RoleChecker(["citizen"])),
-    storage_service: BaseStorageService = Depends(deps.get_storage_service)
+    storage_service: BaseStorageService = Depends(deps.get_storage_service),
+    orchestrator = Depends(deps.get_ai_orchestrator)
 ):
     """Ingests a new citizen hazard report. Restricts access to Citizen users only."""
     # Parse timestamp
@@ -109,6 +110,13 @@ async def create_report(
         image_url=image_url,
         video_url=video_url
     )
+
+    # Run the complete AI pipeline synchronously
+    try:
+        report = orchestrator.process_report(db, str(report.id))
+    except Exception as e:
+        logger.error(f"AI Pipeline failed to process Report {report.id}: {e}")
+        db.refresh(report)
 
     # Broadcast to SSE subscribers
     from app.core.events import publisher
@@ -264,10 +272,10 @@ def update_citizen_report(
         )
         
     # Check state constraints
-    if report.report_status != "PENDING_AI_ANALYSIS":
+    if report.report_status not in ["PENDING_AI_ANALYSIS", "AI_ANALYZED", "VERIFIED", "FUSED"]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Report cannot be modified once AI verification is initiated. Status: {report.report_status}"
+            detail=f"Report cannot be modified in its current state. Status: {report.report_status}"
         )
         
     return crud.update_report(db, db_report=report, obj_in=report_in)

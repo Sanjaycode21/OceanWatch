@@ -28,7 +28,7 @@ def read_dashboard_summary(
     
     pending_verification = db.query(Report).filter(
         Report.deleted_at == None,
-        Report.report_status.in_(["PENDING_AI_ANALYSIS", "AI_PROCESSING", "UNDER_VERIFICATION"])
+        Report.report_status.in_(["PENDING_AI_ANALYSIS", "AI_PROCESSING", "UNDER_VERIFICATION", "AI_ANALYZED"])
     ).count()
     
     critical_incidents = db.query(FusedIncident).filter(FusedIncident.priority == "critical").count()
