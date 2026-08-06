@@ -218,7 +218,7 @@ export default function CitizenDashboardPortal() {
                   onClick={() => setShowAuthModal(true)}
                   className="text-xs bg-[#0284C7] hover:bg-[#0369A1] text-white font-extrabold px-5 py-2 rounded-xl transition-all shadow-sm"
                 >
-                  LINK ACCOUNT
+                  LOGIN
                 </button>
               )}
             </div>

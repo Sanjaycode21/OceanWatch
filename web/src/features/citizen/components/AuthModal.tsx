@@ -147,10 +147,10 @@ export default function AuthModal({
             <img src="/logo.jpg" alt="OceanWatch Logo" className="w-full h-full object-cover" />
           </div>
           <h2 className="text-base font-black text-[#0E1726] tracking-wide">
-            {authMode === "login" ? "LINK CITIZEN PROFILE" : "CREATE CITIZEN ACCOUNT"}
+            {authMode === "login" ? "CITIZEN LOGIN" : "CREATE CITIZEN ACCOUNT"}
           </h2>
           <p className="text-[10px] text-[#64748B] font-bold mt-1 px-4 leading-relaxed uppercase">
-            {authMode === "login" ? "Verify session credentials to activate link" : "Fill details to link new sentinel code"}
+            {authMode === "login" ? "Verify session credentials to activate citizen profile" : "Fill details to link new sentinel code"}
           </p>
         </div>
 
@@ -285,7 +285,7 @@ export default function AuthModal({
             {authMode === "login"
               ? loginMethod === "otp"
                 ? "Verify & Sign In"
-                : "LINK PROFILE"
+                : "LOGIN"
               : "CREATE PROFILE"}
           </button>
         </form>
