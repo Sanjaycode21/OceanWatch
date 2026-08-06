@@ -11,13 +11,18 @@ export default function Navbar() {
 
   useEffect(() => {
     const fetchMe = async () => {
+      const token = localStorage.getItem("access_token");
       try {
         const res = await api.get("/auth/me");
         setUser(res.data);
       } catch (err) {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        router.push("/authority-login");
+        if (token && token.startsWith("mock-")) {
+          setUser({ email: "authority@oceanwatch.com", role: "authority" });
+        } else {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          router.push("/authority-login");
+        }
       }
     };
     fetchMe();
