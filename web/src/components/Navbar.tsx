@@ -15,6 +15,8 @@ export default function Navbar() {
         const res = await api.get("/auth/me");
         setUser(res.data);
       } catch (err) {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
         router.push("/authority-login");
       }
     };
