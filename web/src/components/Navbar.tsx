@@ -15,7 +15,7 @@ export default function Navbar() {
         const res = await api.get("/auth/me");
         setUser(res.data);
       } catch (err) {
-        router.push("/login");
+        router.push("/authority-login");
       }
     };
     fetchMe();
@@ -32,7 +32,7 @@ export default function Navbar() {
     } finally {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      router.push("/login");
+      router.push("/authority-login");
     }
   };
 
