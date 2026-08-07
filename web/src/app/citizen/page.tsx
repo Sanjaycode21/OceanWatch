@@ -180,14 +180,15 @@ export default function CitizenDashboardPortal() {
           100% { background-position: 0% 50%; }
         }
         .bg-ocean-animated {
-          background: linear-gradient(120deg, #F0F7FC, #EBF5FB, #ECFDF5, #F0FDFA, #E0F2FE);
-          background-size: 400% 400%;
-          animation: ocean-gradient-move 20s ease infinite;
+          background-image: linear-gradient(rgba(10, 25, 47, 0.62), rgba(10, 25, 47, 0.62)), url('/dark_ocean_bg.png');
+          background-size: cover;
+          background-position: center;
+          background-attachment: fixed;
         }
         .bg-ocean-grid {
           background-image: 
-            linear-gradient(to right, rgba(184, 204, 217, 0.12) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(184, 204, 217, 0.12) 1px, transparent 1px);
+            linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
           background-size: 4rem 4rem;
         }
       `}</style>
