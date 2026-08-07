@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import ElasticMesh from "../components/ElasticMesh";
 import {
   Camera,
   AlertOctagon,
@@ -141,10 +142,24 @@ export default function LandingView({ onEnterPortal, onLinkAccount, isAuthentica
       `}</style>
 
       {/* Hero Header Area with spacious layout, grid meshes, and flowing waves */}
-      <section 
-        className="relative overflow-hidden pt-20 md:pt-32 pb-32 md:pb-44 px-6 border-b border-[#D5E2EC] min-h-[600px] flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: "linear-gradient(rgba(235, 242, 247, 0.82), rgba(244, 248, 250, 0.82)), url('/ocean_hero_bg.png')" }}
-      >
+      <section className="relative overflow-hidden pt-20 md:pt-32 pb-32 md:pb-44 px-6 border-b border-[#D5E2EC] min-h-[600px] flex items-center justify-center bg-gradient-to-b from-[#EBF2F7]/50 via-[#EBF2F7]/50 to-[#F4F8FA]/50">
+        
+        {/* ElasticMesh interactive background */}
+        <div className="absolute inset-0 z-0 opacity-75 pointer-events-none md:pointer-events-auto">
+          <ElasticMesh 
+            image="/ocean_hero_bg.png" 
+            interaction="hover" 
+            tilt={0} 
+            shading={0.65} 
+            stiffness={0.035} 
+            damping={0.16} 
+            grabRadius={0.45} 
+            pull={0.5} 
+            wobble={6} 
+            borderRadius={0}
+            showGrid={false}
+          />
+        </div>
         
         {/* Stripe-style Grid overlay mesh (Linear style) */}
         <div className="absolute inset-0 z-10 bg-[linear-gradient(to_right,#d5e2ec_1px,transparent_1px),linear-gradient(to_bottom,#d5e2ec_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] opacity-[0.25] pointer-events-none" />

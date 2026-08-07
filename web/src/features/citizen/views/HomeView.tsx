@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import ElasticMesh from "../components/ElasticMesh";
 import {
   Camera,
   AlertTriangle,
@@ -274,10 +275,24 @@ export default function HomeView({
       `}</style>
 
       {/* 1. Redesigned Hero Section with floating stats */}
-      <section 
-        className="relative overflow-hidden pt-14 pb-16 px-6 border border-[#B8CCD9] rounded-[36px] flex flex-col justify-center items-center text-center shadow-[0_10px_35px_rgba(37,99,235,0.04)] bg-cover bg-center"
-        style={{ backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.78), rgba(240, 253, 250, 0.78)), url('/ocean_hero_bg.png')" }}
-      >
+      <section className="relative overflow-hidden pt-14 pb-16 px-6 border border-[#B8CCD9] rounded-[36px] flex flex-col justify-center items-center text-center shadow-[0_10px_35px_rgba(37,99,235,0.04)] bg-gradient-to-br from-[#E0F2FE]/45 via-[#F0FDFA]/45 to-[#EFF6FF]/45">
+        
+        {/* ElasticMesh interactive background */}
+        <div className="absolute inset-0 z-0 opacity-75 pointer-events-none md:pointer-events-auto">
+          <ElasticMesh 
+            image="/ocean_hero_bg.png" 
+            interaction="hover" 
+            tilt={0} 
+            shading={0.65} 
+            stiffness={0.035} 
+            damping={0.16} 
+            grabRadius={0.45} 
+            pull={0.5} 
+            wobble={6} 
+            borderRadius={36}
+            showGrid={false}
+          />
+        </div>
         
         {/* Grid overlay mesh */}
         <div className="absolute inset-0 z-10 bg-[linear-gradient(to_right,#b8ccd9_1px,transparent_1px),linear-gradient(to_bottom,#b8ccd9_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-[0.25] pointer-events-none" />
