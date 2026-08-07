@@ -53,9 +53,9 @@ export default function TelemetryView() {
     <div className="space-y-8 text-left">
       
       {/* Header telemetry status */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-950/60 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
         <div>
-          <span className="text-[10px] text-[#38BDF8] font-black uppercase tracking-widest block">TELEMETRY GRID NODES</span>
+          <span className="text-[10px] text-sky-200 font-extrabold uppercase tracking-widest block">TELEMETRY GRID NODES</span>
           <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">Sensor telemetry Analytics</h1>
         </div>
         

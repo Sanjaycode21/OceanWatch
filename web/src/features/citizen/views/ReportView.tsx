@@ -315,8 +315,8 @@ export default function ReportView({
             className="space-y-8"
           >
             {/* Header titles */}
-            <div className="inline-block bg-white/10 backdrop-blur-md border border-white/25 px-6 py-4.5 rounded-3xl space-y-1 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
-              <span className="text-[11px] text-[#38BDF8] font-black uppercase tracking-widest block">REPORT WORKFLOW</span>
+            <div className="inline-block bg-slate-950/60 backdrop-blur-xl border border-white/10 px-6 py-4.5 rounded-3xl space-y-1 shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
+              <span className="text-[11px] text-sky-200 font-extrabold uppercase tracking-widest block">REPORT WORKFLOW</span>
               <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">Submit Ocean Evidence</h1>
             </div>
 
@@ -587,8 +587,8 @@ export default function ReportView({
             exit={{ opacity: 0, y: -15 }}
             className="space-y-6 text-left"
           >
-            <div className="inline-block bg-white/10 backdrop-blur-md border border-white/25 px-6 py-4.5 rounded-3xl space-y-1 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
-              <span className="text-[10px] text-[#38BDF8] font-black uppercase tracking-widest block">PIPELINE ANALYSIS COMPLETE</span>
+            <div className="inline-block bg-slate-950/60 backdrop-blur-xl border border-white/10 px-6 py-4.5 rounded-3xl space-y-1 shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
+              <span className="text-[10px] text-sky-200 font-extrabold uppercase tracking-widest block">PIPELINE ANALYSIS COMPLETE</span>
               <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">AI Classification Results</h1>
             </div>
 
