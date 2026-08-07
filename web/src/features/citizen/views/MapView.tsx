@@ -69,8 +69,8 @@ export default function MapView({ apiClient }: MapViewProps) {
       {/* Map Control Title Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-[#E2E8F0]">
         <div>
-          <h2 className="text-base font-black tracking-wide">HAZARD RADAR SURVEY MAP</h2>
-          <span className="text-[10px] text-[#64748B] font-bold uppercase">Real-time ocean status monitoring</span>
+          <h2 className="text-base font-black tracking-wide text-white">HAZARD RADAR SURVEY MAP</h2>
+          <span className="text-[10px] text-slate-300 font-bold uppercase">Real-time ocean status monitoring</span>
         </div>
 
         {/* Filter chips */}

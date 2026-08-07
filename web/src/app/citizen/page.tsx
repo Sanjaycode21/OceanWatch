@@ -180,10 +180,10 @@ export default function CitizenDashboardPortal() {
           100% { background-position: 0% 50%; }
         }
         .bg-ocean-animated {
-          background-image: linear-gradient(rgba(10, 25, 47, 0.62), rgba(10, 25, 47, 0.62)), url('/dark_ocean_bg.png');
+          background-image: linear-gradient(rgba(10, 25, 47, 0.62), rgba(10, 25, 47, 0.62)), url('/vibrant_ocean_bg.png');
           background-size: cover;
           background-position: center;
-          background-attachment: fixed;
+          background-attachment: scroll;
         }
         .bg-ocean-grid {
           background-image: 

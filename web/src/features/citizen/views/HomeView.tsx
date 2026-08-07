@@ -34,17 +34,102 @@ interface LocalReport {
   status: string;
 }
 
+const CitizenIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#0284C7] shrink-0 inline-block">
+    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+    <line x1="12" y1="18" x2="12" y2="18.01" />
+  </svg>
+);
+
+const XIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" className="text-[#0F172A] shrink-0 inline-block">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
+const FacebookIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" className="text-[#1877F2] shrink-0 inline-block">
+    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
+  </svg>
+);
+
+const InstagramIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#E1306C] shrink-0 inline-block">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
+
+const RedditIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" className="text-[#FF4500] shrink-0 inline-block">
+    <path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.85-1.68-6.24-1.78l1.32-4.14 4.26 1c.04.94.8 1.7 1.76 1.7 1 0 1.8-.8 1.8-1.8s-.8-1.8-1.8-1.8c-.88 0-1.62.63-1.77 1.46l-4.75-1.12c-.22-.05-.44.09-.5.31l-1.57 4.92c-2.48.06-4.77.74-6.44 1.78-.56-.76-1.46-1.24-2.42-1.24-1.65 0-3 1.35-3 3 0 1.12.62 2.1 1.54 2.6-.04.2-.06.4-.06.6 0 3.7 4.6 6.7 10.3 6.7s10.3-3 10.3-6.7c0-.2-.02-.4-.06-.6.92-.5 1.54-1.48 1.54-2.6zm-18 1c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm11.5 5.5c-1.84 1.84-5.36 1.84-7.2 0-.2-.2-.2-.5 0-.7.2-.2.5-.2.7 0 1.48 1.48 4.36 1.48 5.8 0 .2-.2.5-.2.7 0 .2.2.2.5 0 .7zm-.75-4c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5z"/>
+  </svg>
+);
+
+const NewsIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#475569] shrink-0 inline-block">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+    <path d="M16 8h2" />
+    <path d="M16 12h2" />
+    <path d="M16 16h2" />
+    <path d="M6 8h6v8H6z" />
+  </svg>
+);
+
+const GovernmentIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#059669] shrink-0 inline-block">
+    <path d="M22 22H2M6 22V4c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v18M10 8h4M10 12h4M10 16h4" />
+  </svg>
+);
+
+const CoastGuardIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#3B82F6] shrink-0 inline-block">
+    <circle cx="12" cy="5" r="3" />
+    <line x1="12" y1="22" x2="12" y2="8" />
+    <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+  </svg>
+);
+
+const WeatherAgencyIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#EA580C] shrink-0 inline-block">
+    <path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 8.58" />
+    <polyline points="13 11 9 17 12 17 11 23 15 17 12 17 13 11" />
+  </svg>
+);
+
+const DefaultGlobeIcon = ({ size }: { size: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#64748B] shrink-0 inline-block">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+  </svg>
+);
+
 const getSourceIcon = (source: string) => {
+  const size = 13;
   switch (source.toLowerCase()) {
-    case "citizen": return "📱";
-    case "x": return "🕏";
-    case "facebook": return "📘";
-    case "reddit": return "🍊";
-    case "news": return "📰";
-    case "government": return "🏛️";
-    case "coast guard": return "⚓";
-    case "weather agency": return "🌀";
-    default: return "🌐";
+    case "citizen": 
+      return <CitizenIcon size={size} />;
+    case "x": 
+    case "twitter":
+      return <XIcon size={size} />;
+    case "facebook": 
+      return <FacebookIcon size={size} />;
+    case "instagram": 
+      return <InstagramIcon size={size} />;
+    case "reddit": 
+      return <RedditIcon size={size} />;
+    case "news": 
+      return <NewsIcon size={size} />;
+    case "government": 
+      return <GovernmentIcon size={size} />;
+    case "coast guard": 
+      return <CoastGuardIcon size={size} />;
+    case "weather agency": 
+      return <WeatherAgencyIcon size={size} />;
+    default: 
+      return <DefaultGlobeIcon size={size} />;
   }
 };
 
