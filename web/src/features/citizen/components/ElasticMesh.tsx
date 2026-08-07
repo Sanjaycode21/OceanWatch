@@ -4,7 +4,7 @@ import { Renderer, Geometry, Program, Mesh, Texture } from 'ogl';
 import './ElasticMesh.css';
 
 const DIST = 4.6;
-const FIT = 0.82;
+const FIT = 1.0;
 
 const VERT = `
 precision highp float;
@@ -139,6 +139,7 @@ interface ElasticMeshProps extends React.HTMLAttributes<HTMLDivElement> {
   resolution?: number;
   interaction?: 'hover' | 'drag';
   enabled?: boolean;
+  globalTracking?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -163,6 +164,7 @@ const ElasticMesh: React.FC<ElasticMeshProps> = ({
   resolution = 25,
   interaction = 'hover',
   enabled = true,
+  globalTracking = false,
   className = '',
   style,
   ...rest
@@ -187,7 +189,8 @@ const ElasticMesh: React.FC<ElasticMeshProps> = ({
     tilt,
     shading,
     interaction,
-    enabled
+    enabled,
+    globalTracking
   };
 
   useEffect(() => {
@@ -363,14 +366,24 @@ const ElasticMesh: React.FC<ElasticMeshProps> = ({
       }
     }
 
-    container.addEventListener('mousemove', onMove);
-    container.addEventListener('mouseenter', onEnter);
-    container.addEventListener('mouseleave', onLeave);
+    const targetEl = propsRef.current.globalTracking ? window : container;
+
+    targetEl.addEventListener('mousemove', onMove as any);
+    if (!propsRef.current.globalTracking) {
+      container.addEventListener('mouseenter', onEnter);
+      container.addEventListener('mouseleave', onLeave);
+    } else {
+      window.addEventListener('mouseout', onLeave);
+    }
     container.addEventListener('mousedown', onDown);
     window.addEventListener('mouseup', onUp);
-    container.addEventListener('touchstart', onTouch, { passive: true });
-    container.addEventListener('touchmove', onTouch, { passive: true });
-    container.addEventListener('touchend', onLeave);
+    targetEl.addEventListener('touchstart', onTouch as any, { passive: true });
+    targetEl.addEventListener('touchmove', onTouch as any, { passive: true });
+    if (!propsRef.current.globalTracking) {
+      container.addEventListener('touchend', onLeave);
+    } else {
+      window.addEventListener('touchend', onLeave);
+    }
 
     const STEP = 1 / 120;
     const MAX_SUB = 5;
@@ -579,14 +592,22 @@ const ElasticMesh: React.FC<ElasticMeshProps> = ({
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
-      container.removeEventListener('mousemove', onMove);
-      container.removeEventListener('mouseenter', onEnter);
-      container.removeEventListener('mouseleave', onLeave);
+      targetEl.removeEventListener('mousemove', onMove as any);
+      if (!propsRef.current.globalTracking) {
+        container.removeEventListener('mouseenter', onEnter);
+        container.removeEventListener('mouseleave', onLeave);
+      } else {
+        window.removeEventListener('mouseout', onLeave);
+      }
       container.removeEventListener('mousedown', onDown);
       window.removeEventListener('mouseup', onUp);
-      container.removeEventListener('touchstart', onTouch);
-      container.removeEventListener('touchmove', onTouch);
-      container.removeEventListener('touchend', onLeave);
+      targetEl.removeEventListener('touchstart', onTouch as any);
+      targetEl.removeEventListener('touchmove', onTouch as any);
+      if (!propsRef.current.globalTracking) {
+        container.removeEventListener('touchend', onLeave);
+      } else {
+        window.removeEventListener('touchend', onLeave);
+      }
       if (gl.canvas.parentElement === container) container.removeChild(gl.canvas);
       const lose = gl.getExtension('WEBGL_lose_context');
       if (lose) lose.loseContext();

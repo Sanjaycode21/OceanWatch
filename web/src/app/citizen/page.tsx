@@ -35,6 +35,7 @@ import ProfileView from "@/features/citizen/views/ProfileView";
 import MapView from "@/features/citizen/views/MapView";
 import AuthModal from "@/features/citizen/components/AuthModal";
 import Dock from "@/features/citizen/components/Dock";
+import ElasticMesh from "@/features/citizen/components/ElasticMesh";
 
 // Configure isolated citizen API client
 const citizenApi = axios.create({
@@ -191,31 +192,32 @@ export default function CitizenDashboardPortal() {
   ];
 
   return (
-    <div className="h-screen w-screen overflow-y-auto flex flex-col bg-ocean-animated text-[#0F172A] [--background:#F8FAFC] [--foreground:#0F172A] [--card:#FFFFFF] [--border:#E2E8F0] [--primary:#0284C7] [--primary-glow:rgba(2,132,199,0.15)] relative">
+    <div className="h-screen w-screen overflow-y-auto flex flex-col bg-[#0A192F] text-[#0F172A] [--background:#F8FAFC] [--foreground:#0F172A] [--card:#FFFFFF] [--border:#E2E8F0] [--primary:#0284C7] [--primary-glow:rgba(2,132,199,0.15)] relative">
       
-      {/* Scoped CSS styling for shifting ocean gradient and grid background mesh */}
-      <style>{`
-        @keyframes ocean-gradient-move {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        .bg-ocean-animated {
-          background-image: linear-gradient(rgba(10, 25, 47, 0.62), rgba(10, 25, 47, 0.62)), url('/vibrant_ocean_bg.png');
-          background-size: cover;
-          background-position: center;
-          background-attachment: scroll;
-        }
-        .bg-ocean-grid {
-          background-image: 
-            linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-          background-size: 4rem 4rem;
-        }
-      `}</style>
+      {/* Global Interactive WebGL ElasticMesh Ocean Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <ElasticMesh 
+          image="/vibrant_ocean_bg.png" 
+          interaction="hover" 
+          tilt={0} 
+          shading={0.65} 
+          stiffness={0.035} 
+          damping={0.16} 
+          grabRadius={0.4} 
+          pull={0.45} 
+          wobble={6} 
+          borderRadius={0}
+          showGrid={true}
+          gridDensity={32}
+          gridOpacity={0.25}
+          gridColor="#ffffff"
+          resolution={32}
+          globalTracking={true}
+        />
+      </div>
 
       {/* Dynamic shifting background grid overlay */}
-      <div className="fixed inset-0 bg-ocean-grid pointer-events-none z-0" />
+      <div className="fixed inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none z-0" />
 
       {/* Dynamic View rendering */}
       {activeTab === "landing" ? (
