@@ -76,6 +76,18 @@ export default function CitizenDashboardPortal() {
       if (savedQueue) {
         setOfflineQueue(JSON.parse(savedQueue));
       }
+
+      const savedTab = localStorage.getItem("oceanwatch_citizen_tab") as TabType | null;
+      if (savedTab) {
+        const requiresAuth = ["report", "reports", "sos", "profile"].includes(savedTab);
+        if (requiresAuth && !stored) {
+          setActiveTab("landing");
+        } else {
+          setActiveTab(savedTab);
+        }
+      } else if (stored) {
+        setActiveTab("home");
+      }
     }
   }, []);
 
@@ -129,6 +141,9 @@ export default function CitizenDashboardPortal() {
     loadProfileDetails();
     fetchReportsList();
     setActiveTab("home");
+    if (typeof window !== "undefined") {
+      localStorage.setItem("oceanwatch_citizen_tab", "home");
+    }
   };
 
   const handleLogout = () => {
@@ -137,6 +152,9 @@ export default function CitizenDashboardPortal() {
     setProfile(null);
     setReports([]);
     setActiveTab("landing");
+    if (typeof window !== "undefined") {
+      localStorage.setItem("oceanwatch_citizen_tab", "landing");
+    }
   };
 
   const handleNavigateTab = (tab: any, preset?: string) => {
@@ -157,6 +175,9 @@ export default function CitizenDashboardPortal() {
     }
 
     setActiveTab(tab);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("oceanwatch_citizen_tab", tab);
+    }
   };
 
   const menuItems = [
