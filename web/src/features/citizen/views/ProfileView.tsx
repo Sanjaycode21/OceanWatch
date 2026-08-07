@@ -38,13 +38,13 @@ export default function ProfileView({
   const trustScore = 89;
 
   return (
-    <div className="space-y-6 text-[#0E1726] animate-fade-in font-sans">
+    <div className="space-y-6 animate-fade-in font-sans">
       
       {/* Title Header */}
-      <div className="flex justify-between items-center pb-4 border-b border-[#D5E2EC]">
+      <div className="flex justify-between items-center bg-slate-950/60 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] mb-6">
         <div>
-          <h2 className="text-base font-black tracking-wide uppercase">CITIZEN PROFILE DETAILS</h2>
-          <span className="text-[10px] text-[#64748B] font-bold uppercase">Reputation & telemetry metadata</span>
+          <h2 className="text-base font-black tracking-wide uppercase text-white">CITIZEN PROFILE DETAILS</h2>
+          <span className="text-[10px] text-sky-200 font-extrabold uppercase tracking-wider block mt-0.5">Reputation & telemetry metadata</span>
         </div>
       </div>
 

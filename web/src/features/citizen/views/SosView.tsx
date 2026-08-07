@@ -100,13 +100,13 @@ export default function SosView({ apiClient, isOffline, onSuccess }: SosViewProp
   };
 
   return (
-    <div className="space-y-6 text-[#0F172A] animate-fade-in font-sans">
+    <div className="space-y-6 animate-fade-in font-sans">
       
       {/* Title Header */}
-      <div className="flex justify-between items-center pb-4 border-b border-[#E2E8F0]">
+      <div className="flex justify-between items-center bg-slate-950/60 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] mb-6">
         <div>
           <h2 className="text-base font-black tracking-wide text-rose-500 uppercase">EMERGENCY DISTRESS BEACON</h2>
-          <span className="text-[10px] text-[#64748B] font-bold uppercase">Satellite Coast Guard dispatch</span>
+          <span className="text-[10px] text-sky-200 font-extrabold uppercase tracking-wider block mt-0.5">Satellite Coast Guard dispatch</span>
         </div>
       </div>
 
