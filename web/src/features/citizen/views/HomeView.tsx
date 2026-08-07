@@ -189,7 +189,10 @@ export default function HomeView({
       `}</style>
 
       {/* 1. Redesigned Hero Section with floating stats */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#E0F2FE] via-[#F0FDFA] to-[#EFF6FF] pt-14 pb-16 px-6 border border-[#B8CCD9] rounded-[36px] flex flex-col justify-center items-center text-center shadow-[0_10px_35px_rgba(37,99,235,0.04)]">
+      <section 
+        className="relative overflow-hidden pt-14 pb-16 px-6 border border-[#B8CCD9] rounded-[36px] flex flex-col justify-center items-center text-center shadow-[0_10px_35px_rgba(37,99,235,0.04)] bg-cover bg-center"
+        style={{ backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.78), rgba(240, 253, 250, 0.78)), url('/ocean_hero_bg.png')" }}
+      >
         
         {/* Grid overlay mesh */}
         <div className="absolute inset-0 z-10 bg-[linear-gradient(to_right,#b8ccd9_1px,transparent_1px),linear-gradient(to_bottom,#b8ccd9_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-[0.25] pointer-events-none" />
