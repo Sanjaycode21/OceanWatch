@@ -64,10 +64,10 @@ export default function MapView({ apiClient }: MapViewProps) {
   };
 
   return (
-    <div className="space-y-4 text-[#0F172A] animate-fade-in">
+    <div className="space-y-4 animate-fade-in">
       
       {/* Map Control Title Bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-[#E2E8F0]">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
         <div>
           <h2 className="text-base font-black tracking-wide text-white">HAZARD RADAR SURVEY MAP</h2>
           <span className="text-[10px] text-slate-300 font-bold uppercase">Real-time ocean status monitoring</span>

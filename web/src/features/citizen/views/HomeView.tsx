@@ -413,7 +413,7 @@ export default function HomeView({
 
         {/* Active Hazards List Widget - highlighted and full width */}
         <div className="space-y-4 pt-2">
-          <div className="text-left flex justify-between items-center">
+          <div className="text-left flex justify-between items-center bg-white/10 backdrop-blur-md border border-white/20 p-4.5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
             <div className="flex items-center gap-2.5">
               <span className="relative flex h-3 w-3 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>

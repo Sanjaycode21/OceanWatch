@@ -146,10 +146,10 @@ export default function ReportsView({ reports, offlineQueue, apiClient }: Report
       {!selectedId ? (
         /* History Timeline List View */
         <div className="space-y-6">
-          <div className="flex justify-between items-center pb-4 border-b border-[#E2E8F0]">
+          <div className="flex justify-between items-center bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] mb-6">
             <div>
-              <h2 className="text-base font-black tracking-wide uppercase">SUBMISSIONS DIARY</h2>
-              <span className="text-[10px] text-[#64748B] font-bold uppercase">Chronological verification journal</span>
+              <h2 className="text-base font-black tracking-wide uppercase text-white">SUBMISSIONS DIARY</h2>
+              <span className="text-[10px] text-slate-300 font-bold uppercase">Chronological verification journal</span>
             </div>
           </div>
 
@@ -214,15 +214,15 @@ export default function ReportsView({ reports, offlineQueue, apiClient }: Report
         <div className="space-y-6">
           
           {/* Back Action Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-[#E2E8F0]">
+          <div className="flex items-center justify-between bg-white/10 backdrop-blur-md border border-white/20 p-4.5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] mb-6">
             <button
               onClick={() => setSelectedId(null)}
-              className="text-xs text-[#64748B] hover:text-[#0F172A] font-bold flex items-center gap-1.5 transition-colors"
+              className="text-xs text-slate-300 hover:text-white font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <ArrowLeft size={16} />
               <span>Back to diary</span>
             </button>
-            <span className="text-[10px] text-[#64748B] font-bold uppercase">LOG ID: {selectedId.slice(0, 8)}</span>
+            <span className="text-[10px] text-slate-300 font-bold uppercase">LOG ID: {selectedId.slice(0, 8)}</span>
           </div>
 
           {loading ? (

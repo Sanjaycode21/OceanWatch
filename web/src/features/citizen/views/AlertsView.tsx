@@ -331,7 +331,7 @@ export default function AlertsView({ onNavigateTab }: AlertsViewProps) {
 
       {/* 2. Quick Report Categories Shortcuts */}
       <section className="space-y-4">
-        <div className="text-left">
+        <div className="text-left bg-white/10 backdrop-blur-md border border-white/20 p-4.5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] inline-block">
           <span className="text-[10px] text-sky-300 font-black uppercase tracking-widest block">QUICK SELECT</span>
           <h2 className="text-lg font-black text-white">Choose a Category to Report</h2>
         </div>
@@ -359,7 +359,7 @@ export default function AlertsView({ onNavigateTab }: AlertsViewProps) {
       </section>
 
       {/* Title Bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-[#E2E8F0]">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
         <div>
           <h2 className="text-base font-black tracking-wide text-white">ACTIVE BROADCAST ADVISORIES</h2>
           <span className="text-[10px] text-slate-300 font-bold uppercase">Official warnings & safety alerts</span>
