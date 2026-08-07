@@ -194,8 +194,8 @@ export default function CitizenDashboardPortal() {
   return (
     <div className="h-screen w-screen overflow-y-auto flex flex-col bg-[#0A192F] text-[#0F172A] [--background:#F8FAFC] [--foreground:#0F172A] [--card:#FFFFFF] [--border:#E2E8F0] [--primary:#0284C7] [--primary-glow:rgba(2,132,199,0.15)] relative">
       
-      {/* Global Interactive WebGL ElasticMesh Ocean Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      {/* Global Interactive WebGL ElasticMesh Ocean Background with glassy blur */}
+      <div className="fixed inset-0 z-0 pointer-events-none blur-[5px]">
         <ElasticMesh 
           image="/vibrant_ocean_bg.png" 
           interaction="hover" 
