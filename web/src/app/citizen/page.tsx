@@ -376,7 +376,7 @@ export default function CitizenDashboardPortal() {
               )}
 
               {activeTab === "alerts" && (
-                <AlertsView />
+                <AlertsView onNavigateTab={handleNavigateTab} />
               )}
 
               {activeTab === "reports" && (

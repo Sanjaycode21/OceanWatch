@@ -133,13 +133,6 @@ export default function HomeView({
       preset: "debris.png",
       desc: "Trash, plastic & wood obstacles",
       color: "hover:border-slate-300 hover:bg-slate-50/20"
-    },
-    {
-      label: "Emergency SOS",
-      emoji: "🚨",
-      preset: "sos",
-      desc: "Vessel capsized or active distress",
-      color: "hover:border-red-300 hover:bg-red-50/20"
     }
   ];
 
@@ -179,19 +172,19 @@ export default function HomeView({
           animation: wave-swing 4s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
           animation-delay: -2s;
         }
-        @keyframes radar-scan {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-radar-sweep {
-          animation: radar-scan 5s linear infinite;
-        }
         @keyframes subtle-float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-4px); }
         }
         .animate-float-slow {
           animation: subtle-float 6s ease-in-out infinite;
+        }
+        @keyframes subtle-pulse {
+          0%, 100% { opacity: 0.98; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.002); }
+        }
+        .animate-subtle-pulse {
+          animation: subtle-pulse 3s ease-in-out infinite;
         }
       `}</style>
 
@@ -291,282 +284,105 @@ export default function HomeView({
 
       </section>
 
-      {/* 2. Quick Report Categories Shortcuts */}
-      <section className="space-y-4">
-        <div className="text-left">
-          <span className="text-[10px] text-[#2563EB] font-black uppercase tracking-widest block">QUICK SELECT</span>
-          <h2 className="text-lg font-black text-[#0E1726]">Choose a Category to Report</h2>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {categories.map((cat, idx) => (
-            <motion.button
-              key={idx}
-              whileHover={cardHoverEffects}
-              whileTap={{ scale: 0.98 }}
-              transition={hoverSpringTransition}
-              onClick={() => {
-                if (cat.preset === "sos") {
-                  onTriggerSos();
-                } else {
-                  onNavigateTab("report", cat.preset);
-                }
-              }}
-              className={`p-5 bg-white border border-[#B8CCD9] rounded-[24px] text-left flex flex-col justify-between min-h-[140px] shadow-[0_8px_30px_rgba(0,0,0,0.02)] transition-colors cursor-pointer group ${cat.color}`}
-            >
-              <span className="text-3xl block filter drop-shadow-sm group-hover:scale-110 transition-transform">{cat.emoji}</span>
-              <div className="space-y-1">
-                <h4 className="text-xs font-black text-[#0E1726]">{cat.label}</h4>
-                <p className="text-[9px] text-[#64748B] font-semibold leading-snug">{cat.desc}</p>
-              </div>
-            </motion.button>
-          ))}
-        </div>
-      </section>
-
-      {/* Rich Grid of Interactive Widgets to Eliminate Empty Space */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+      {/* Grid of Interactive Notification Widgets */}
+      <div className="space-y-6">
         
-        {/* Left Column: Live Radar Risk Scanner & Climate Telemetry (Colspan 5) */}
-        <div className="md:col-span-5 space-y-6">
+        {/* Government Advisories Card - Highlighted and Bigger */}
+        <motion.div
+          whileHover={{ y: -4, scale: 1.005, boxShadow: "0 15px 30px rgba(245,158,11,0.08)" }}
+          transition={hoverSpringTransition}
+          className="bg-[#FFFDF0] border-2 border-[#EBE2A5] p-8 rounded-[32px] text-left flex gap-5 shadow-[0_15px_30px_rgba(245,158,11,0.05)] w-full relative overflow-hidden animate-subtle-pulse"
+        >
+          {/* Highlight indicator border-glow */}
+          <div className="absolute top-0 bottom-0 left-0 w-2.5 bg-amber-400" />
           
-          {/* Live Risk Radar Widget */}
-          <motion.div
-            whileHover={cardHoverEffects}
-            transition={hoverSpringTransition}
-            className="bg-white border border-[#B8CCD9] p-6 rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.02)] space-y-5 text-left relative overflow-hidden"
-          >
-            {/* Background scanner line overlay */}
-            <div className="absolute inset-0 bg-[#E0F2FE]/10 pointer-events-none" />
+          <div className="p-3 bg-amber-500/10 rounded-2xl text-amber-600 shrink-0 border border-amber-500/20 flex items-center justify-center h-14 w-14">
+            <BellRing size={26} className="animate-bounce" />
+          </div>
+          <div className="space-y-1.5 flex-1">
+            <span className="text-[10px] text-amber-800 font-extrabold uppercase tracking-widest block">GOVERNMENT ADVISORY</span>
+            <h4 className="text-sm md:text-base font-black text-[#0E1726]">High Swell Warning: Chennai Sector</h4>
+            <p className="text-xs text-amber-900/90 leading-relaxed font-bold">
+              Fishermen are advised not to venture into deep sea quadrants near Chennai due to southwesterly currents and waves reaching heights up to 2.8m.
+            </p>
+          </div>
+        </motion.div>
 
-            <div className="flex justify-between items-center relative z-10">
-              <div className="space-y-0.5">
-                <span className="text-[10px] text-[#2563EB] font-black uppercase tracking-widest">LOCAL DATA SENSORS</span>
-                <h3 className="text-sm font-black text-[#0E1726]">Ecosystem Risk Radar</h3>
-              </div>
-              <span className="px-2 py-0.5 bg-[#E2E8F0] border border-[#CBD5E1] rounded-full text-[8px] font-black tracking-wider uppercase">
-                Chennai Node
+        {/* Active Hazards List Widget - highlighted and full width */}
+        <div className="space-y-4 pt-2">
+          <div className="text-left flex justify-between items-center">
+            <div className="flex items-center gap-2.5">
+              <span className="relative flex h-3 w-3 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
               </span>
+              <h2 className="text-base md:text-lg font-black text-[#0E1726] tracking-tight">Active Hazards Near You</h2>
             </div>
-
-            <div className="flex items-center gap-6 relative z-10 py-2">
-              {/* Radar Circle */}
-              <div className="relative w-24 h-24 rounded-full border-2 border-[#B8CCD9]/60 flex items-center justify-center bg-[#F4F8FA] overflow-hidden shrink-0">
-                {/* Rotating scanner sweep line */}
-                <div className="absolute inset-0 border-r border-[#2563EB]/40 animate-radar-sweep origin-center" />
-                <div className="absolute inset-2 border border-dashed border-[#B8CCD9]/60 rounded-full" />
-                <div className="absolute inset-6 border border-[#B8CCD9]/60 rounded-full" />
-                <Compass size={24} className="text-[#2563EB] animate-pulse" />
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[10px] text-[#64748B] font-bold uppercase tracking-wider block">Computed Threat Level</span>
-                <h4 className="text-lg font-black text-emerald-600 flex items-center gap-1.5">
-                  <ShieldCheck size={18} />
-                  LOW RISK (24/100)
-                </h4>
-                <p className="text-[9px] text-[#64748B] font-semibold leading-relaxed">
-                  Local sensors report wave height vectors and chemical composition indices are well within safety boundaries.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Climate Telemetry Widget */}
-          <motion.div
-            whileHover={cardHoverEffects}
-            transition={hoverSpringTransition}
-            className="bg-white border border-[#B8CCD9] p-6 rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.02)] space-y-4 text-left"
-          >
-            <div className="space-y-0.5">
-              <span className="text-[10px] text-[#2563EB] font-black uppercase tracking-widest block">TELEMETRY SCANNER</span>
-              <h3 className="text-sm font-black text-[#0E1726]">Ecosystem Indicators</h3>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3.5">
-              
-              <div className="bg-[#F8FAFC] border border-[#CBD5E1] p-3 rounded-xl flex items-center gap-2.5">
-                <div className="p-2 bg-white rounded-lg border border-[#B8CCD9] text-[#2563EB] shadow-sm">
-                  <Thermometer size={14} />
-                </div>
-                <div className="space-y-0.5">
-                  <span className="text-[9px] text-[#64748B] font-bold uppercase block tracking-wider">Water Temp</span>
-                  <span className="text-xs font-black text-[#0E1726]">28.4°C</span>
-                </div>
-              </div>
-
-              <div className="bg-[#F8FAFC] border border-[#CBD5E1] p-3 rounded-xl flex items-center gap-2.5">
-                <div className="p-2 bg-white rounded-lg border border-[#B8CCD9] text-[#2563EB] shadow-sm">
-                  <Wind size={14} />
-                </div>
-                <div className="space-y-0.5">
-                  <span className="text-[9px] text-[#64748B] font-bold uppercase block tracking-wider">Wind Speed</span>
-                  <span className="text-xs font-black text-[#0E1726]">12 knots</span>
-                </div>
-              </div>
-
-              <div className="bg-[#F8FAFC] border border-[#CBD5E1] p-3 rounded-xl flex items-center gap-2.5">
-                <div className="p-2 bg-white rounded-lg border border-[#B8CCD9] text-[#2563EB] shadow-sm">
-                  <Waves size={14} />
-                </div>
-                <div className="space-y-0.5">
-                  <span className="text-[9px] text-[#64748B] font-bold uppercase block tracking-wider">Wave Height</span>
-                  <span className="text-xs font-black text-[#0E1726]">1.4 meters</span>
-                </div>
-              </div>
-
-              <div className="bg-[#F8FAFC] border border-[#CBD5E1] p-3 rounded-xl flex items-center gap-2.5">
-                <div className="p-2 bg-white rounded-lg border border-[#B8CCD9] text-[#2563EB] shadow-sm">
-                  <Activity size={14} />
-                </div>
-                <div className="space-y-0.5">
-                  <span className="text-[9px] text-[#64748B] font-bold uppercase block tracking-wider">Current Velocity</span>
-                  <span className="text-xs font-black text-[#0E1726]">0.8 m/s</span>
-                </div>
-              </div>
-
-            </div>
-          </motion.div>
-
-        </div>
-
-        {/* Center/Right Column: Active Alerts Feed (Colspan 7) */}
-        <div className="md:col-span-7 space-y-6">
-          
-          {/* Government Advisories Card */}
-          <motion.div
-            whileHover={cardHoverEffects}
-            transition={hoverSpringTransition}
-            className="bg-[#FFFEEB]/60 border border-[#EBE2A5] p-5 rounded-[28px] text-left flex gap-3 shadow-[0_8px_30px_rgba(0,0,0,0.01)]"
-          >
-            <div className="p-2 bg-amber-500/10 rounded-xl text-amber-600 shrink-0 border border-amber-500/15 flex items-center justify-center">
-              <BellRing size={18} className="animate-bounce" />
-            </div>
-            <div className="space-y-1">
-              <span className="text-[9px] text-amber-700 font-black uppercase tracking-widest block">GOVERNMENT ADVISORY</span>
-              <h4 className="text-xs font-black text-[#0E1726]">High Swell Warning: Chennai Sector</h4>
-              <p className="text-[10px] text-amber-900/80 leading-relaxed font-bold">
-                Fishermen are advised not to venture into deep sea quadrants near Chennai due to southwesterly currents and waves reaching heights up to 2.8m.
-              </p>
-            </div>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-6">
-            
-            {/* Active Alerts List Widget */}
-            <div className="sm:col-span-7 space-y-4">
-              <div className="text-left flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                  </span>
-                  <h2 className="text-sm font-black text-[#0E1726]">Active Hazards Near You</h2>
-                </div>
-                <button
-                  onClick={() => onNavigateTab("alerts")}
-                  className="text-[9px] text-[#2563EB] hover:underline font-extrabold flex items-center gap-0.5 cursor-pointer"
-                >
-                  <span>Full Feed</span>
-                  <ChevronRight size={12} />
-                </button>
-              </div>
-
-              <div className="bg-white border border-[#B8CCD9] p-4.5 rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.02)] space-y-3">
-                {nearbyAlerts.map((alt) => {
-                  const isCritical = alt.severity === "CRITICAL";
-                  const isHigh = alt.severity === "HIGH";
-                  
-                  const cardBg = isCritical 
-                    ? "bg-rose-50/50 hover:bg-rose-50/90 border-[#FCA5A5]/40 border-l-rose-500" 
-                    : isHigh 
-                    ? "bg-orange-50/40 hover:bg-orange-50/80 border-[#FED7AA]/40 border-l-orange-500"
-                    : "bg-blue-50/40 hover:bg-blue-50/80 border-[#BFDBFE]/40 border-l-blue-500";
-                  
-                  const distanceText = isCritical 
-                    ? "text-rose-700/80" 
-                    : isHigh 
-                    ? "text-[#C2410C]/80" 
-                    : "text-blue-700/80";
-
-                  return (
-                    <motion.div
-                      key={alt.id}
-                      whileHover={{ x: 5 }}
-                      transition={{ duration: 0.15 }}
-                      className={`p-3 border-l-4 border bg-white rounded-xl flex justify-between items-center transition-all cursor-default text-left ${cardBg}`}
-                    >
-                      <div className="space-y-0.5">
-                        <div className="flex items-center gap-1.5 flex-wrap">
-                          <h4 className="text-xs font-black text-[#0E1726]">{alt.hazard}</h4>
-                          {alt.sources && (
-                            <span className="bg-blue-600/10 text-blue-600 border border-blue-500/20 px-1 py-0.2 rounded text-[7px] font-black uppercase tracking-wider animate-pulse">
-                              OSINT
-                            </span>
-                          )}
-                        </div>
-                        <p className={`text-[9px] font-bold ${distanceText}`}>{alt.distance}</p>
-                        {alt.sources && (
-                          <div className="flex items-center gap-1 mt-1 text-[8px] font-bold text-[#64748B]">
-                            <span className="uppercase tracking-wider mr-1 text-[7px]">Sources:</span>
-                            <div className="flex items-center gap-1">
-                              {alt.sources.map((src, sIdx) => (
-                                <span key={sIdx} title={src} className="opacity-90">
-                                  {getSourceIcon(src)}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <span className={`px-2 py-0.5 rounded-full text-[8px] font-black tracking-wider border uppercase ${alt.color}`}>
-                        {alt.severity}
-                      </span>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Live SOS Distress Card */}
-            <div className="sm:col-span-5 space-y-4">
-              <div className="text-left">
-                <span className="text-[10px] text-red-600 font-black uppercase tracking-widest block">DISTRESS STATUS</span>
-                <h2 className="text-sm font-black text-[#0E1726]">SOS Channels</h2>
-              </div>
-
-              <motion.div
-                whileHover={cardHoverEffects}
-                transition={hoverSpringTransition}
-                className="p-5 bg-red-50/40 border border-red-200 rounded-[24px] flex flex-col justify-between min-h-[195px] text-left cursor-default shadow-sm"
-              >
-                <div className="space-y-2">
-                  <span className="text-[10px] text-[#EF4444] font-black uppercase tracking-wider flex items-center gap-1">
-                    <LifeBuoy size={14} className="animate-pulse" />
-                    Need Rescue?
-                  </span>
-                  <p className="text-[10px] text-red-900/80 font-bold leading-relaxed">
-                    Overboard distress signals send exact coordinates immediately to coast guard response channels.
-                  </p>
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.02, boxShadow: "0 10px 25px rgba(239,68,68,0.25)" }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={onTriggerSos}
-                  className="w-full bg-[#EF4444] hover:bg-[#DC2626] text-white font-black py-3 rounded-xl text-[10px] shadow-sm tracking-wider uppercase transition-all cursor-pointer text-center"
-                >
-                  Emergency SOS
-                </motion.button>
-              </motion.div>
-            </div>
-
+            <button
+              onClick={() => onNavigateTab("alerts")}
+              className="text-[10px] text-[#2563EB] hover:underline font-extrabold flex items-center gap-0.5 cursor-pointer"
+            >
+              <span>Full Feed</span>
+              <ChevronRight size={14} />
+            </button>
           </div>
 
+          <div className="bg-white border-2 border-[#CBD5E1]/70 p-8 rounded-[32px] shadow-[0_20px_50px_rgba(15,23,42,0.04)] space-y-5">
+            {nearbyAlerts.map((alt) => {
+              const isCritical = alt.severity === "CRITICAL";
+              const isHigh = alt.severity === "HIGH";
+              
+              const cardBg = isCritical 
+                ? "bg-rose-50/50 hover:bg-rose-50/90 border-[#FCA5A5]/60 border-l-rose-500 shadow-[0_4px_20px_rgba(239,68,68,0.03)]" 
+                : isHigh 
+                ? "bg-orange-50/40 hover:bg-orange-50/80 border-[#FED7AA]/60 border-l-orange-500 shadow-[0_4px_20px_rgba(249,115,22,0.02)]"
+                : "bg-blue-50/40 hover:bg-blue-50/80 border-[#BFDBFE]/60 border-l-blue-500";
+              
+              const distanceText = isCritical 
+                ? "text-rose-700/90" 
+                : isHigh 
+                ? "text-[#C2410C]/90" 
+                : "text-blue-700/90";
+
+              return (
+                <motion.div
+                  key={alt.id}
+                  whileHover={{ x: 6, scale: 1.004 }}
+                  transition={{ duration: 0.15 }}
+                  className={`p-5 border-l-4 border bg-white rounded-2xl flex justify-between items-center transition-all cursor-default text-left ${cardBg}`}
+                >
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2.5 flex-wrap">
+                      <h4 className="text-sm font-black text-[#0E1726]">{alt.hazard}</h4>
+                      {alt.sources && (
+                        <span className="bg-blue-600/10 text-blue-600 border border-blue-500/20 px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider animate-pulse">
+                          OSINT
+                        </span>
+                      )}
+                    </div>
+                    <p className={`text-xs font-bold ${distanceText}`}>{alt.distance}</p>
+                    {alt.sources && (
+                      <div className="flex items-center gap-1 mt-2 text-[9px] font-bold text-[#64748B]">
+                        <span className="uppercase tracking-wider mr-1 text-[8px]">Sources:</span>
+                        <div className="flex items-center gap-1.5">
+                          {alt.sources.map((src, sIdx) => (
+                            <span key={sIdx} title={src} className="opacity-90">
+                              {getSourceIcon(src)}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-wider border uppercase ${alt.color}`}>
+                    {alt.severity}
+                  </span>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
-
       </div>
-
     </div>
   );
 }
